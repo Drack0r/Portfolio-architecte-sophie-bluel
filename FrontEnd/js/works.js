@@ -12,12 +12,18 @@ const gallery = document.querySelector(CONFIG.GALLERY_SELECTOR);
 export function createWorkElement(work) {
   const workFigure = document.createElement("figure");
 
-  workFigure.innerHTML = `
-    <img src="${work.imageUrl}" alt="${work.title}" />
-    <figcaption>${work.title}</figcaption>
-  `;
+  // Créer l'image
+  const img = document.createElement("img");
+  img.src = work.imageUrl;
+  img.alt = work.title;
 
-  // createElement
+  // Créer la légende
+  const figcaption = document.createElement("figcaption");
+  figcaption.textContent = work.title;
+
+  // Assembler les éléments
+  workFigure.appendChild(img);
+  workFigure.appendChild(figcaption);
 
   return workFigure;
 }

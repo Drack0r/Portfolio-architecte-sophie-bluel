@@ -18,6 +18,3 @@ async function initializeGallery() {
 
 // Appel de la fonction principale
 initializeGallery();
-
-// Variables d'environnement
-// data attributes ++
