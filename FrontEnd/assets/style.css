@@ -219,6 +219,33 @@ li:hover {
   display: flex;
   color: red;
 }
+
+.filters {
+  margin-top: 21px;
+  margin-bottom: 51px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.filter-btn {
+  padding: 9px 30px;
+  font-family: "Syne", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #1d6154;
+  background-color: transparent;
+  border: 1px solid #1d6154;
+  border-radius: 60px;
+}
+.filter-btn-active {
+  color: #fff;
+  background: #1d6154;
+}
+
 .gallery {
   width: 100%;
   display: grid;

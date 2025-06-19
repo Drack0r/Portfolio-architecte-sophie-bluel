@@ -1,6 +1,7 @@
 // main.js
 
 import { fetchWorks } from "./api.js";
+import { setupFilters } from "./filters.js";
 import { displayWorks } from "./works.js";
 
 // Ciblage de la span 'api-error' pour catch les erreurs
@@ -11,6 +12,7 @@ async function initializeGallery() {
   try {
     const works = await fetchWorks();
     displayWorks(works);
+    setupFilters(works);
   } catch (error) {
     apiErrorSpan.innerText = `Erreur : ${error.message}`;
   }
