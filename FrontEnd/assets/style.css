@@ -378,6 +378,11 @@ input[type="submit"] {
   margin-bottom: 28px;
 }
 
+input[type="submit"]:hover {
+  background-color: #2e9784;
+  transition: background 0.25s ease-in-out;
+}
+
 form a {
   text-decoration: underline;
   text-align: center;
