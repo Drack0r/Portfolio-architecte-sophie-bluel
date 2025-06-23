@@ -9,15 +9,15 @@ function getUniqueCategories(works) {
 
 // Créer un bouton de filtre
 function createFilterButton(category, isActive = false) {
-  const button = document.createElement("button");
-  button.textContent = category;
-  button.classList.add("filter-btn");
+  const filterBtn = document.createElement("button");
+  filterBtn.textContent = category;
+  filterBtn.classList.add("filter-btn");
 
   if (isActive) {
-    button.classList.add("filter-btn-active");
+    filterBtn.classList.add("filter-btn-active");
   }
 
-  return button;
+  return filterBtn;
 }
 
 // Gérer l'état actif des boutons
@@ -40,17 +40,17 @@ export function setupFilters(works) {
   const filtersContainer = document.querySelector(".filters");
   filtersContainer.innerHTML = "";
 
-  const categories = getUniqueCategories(works);
+  const worksCategorie = getUniqueCategories(works);
 
-  categories.forEach((category, index) => {
-    const button = createFilterButton(category, index === 0);
+  worksCategorie.forEach((category, index) => {
+    const filterBtn = createFilterButton(category, index === 0);
 
-    button.addEventListener("click", () => {
-      setActiveFilter(button);
-      const filtered = filterWorksByCategory(works, category);
-      displayWorks(filtered);
+    filterBtn.addEventListener("click", () => {
+      setActiveFilter(filterBtn);
+      const filteredWorks = filterWorksByCategory(works, category);
+      displayWorks(filteredWorks);
     });
 
-    filtersContainer.appendChild(button);
+    filtersContainer.appendChild(filterBtn);
   });
 }
