@@ -109,6 +109,7 @@ section {
 
 body {
   line-height: 1;
+  overflow-x: hidden;
 }
 
 ol,
@@ -134,12 +135,29 @@ table {
   border-spacing: 0;
 }
 
+a {
+  font-family: inherit;
+  text-decoration: none;
+  color: inherit;
+}
+
 /** end reset css**/
 body {
   max-width: 1140px;
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background: #fffef8;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-page main {
+  flex: 1;
 }
 
 header {
@@ -187,6 +205,10 @@ nav li {
 
 li:hover {
   color: #b1663c;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 #introduction {
@@ -275,6 +297,18 @@ li:hover {
   width: 100%;
 }
 
+#login {
+  position: relative;
+  width: 33.33%;
+  margin-top: 100px;
+  justify-self: center;
+}
+
+#loginFailureSpan {
+  position: absolute;
+  color: #ed3500;
+}
+
 #contact {
   width: 50%;
   margin: auto;
@@ -288,15 +322,26 @@ li:hover {
   margin-bottom: 20px;
 }
 
-#contact form {
+#login h2 {
+  margin-bottom: 10px;
+}
+
+#contact form,
+#login form {
   text-align: left;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
 
-#contact input {
+#login form {
+  margin-top: 0;
+}
+
+#contact input,
+#login input {
   height: 50px;
+  padding: 0 1em;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -304,6 +349,11 @@ li:hover {
 
 #contact label {
   margin: 2em 0 1em 0;
+}
+
+#login label {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
 }
 
 #contact textarea {
@@ -320,10 +370,35 @@ input[type="submit"] {
   width: 180px;
   text-align: center;
   border-radius: 60px;
+  cursor: pointer;
+}
+
+#login input[type="submit"] {
+  margin-top: 37px;
+  margin-bottom: 28px;
+}
+
+form a {
+  text-decoration: underline;
+  text-align: center;
+}
+
+footer {
+  background-color: white;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 2em 0;
+  box-sizing: border-box;
 }
 
 footer nav ul {
   display: flex;
   justify-content: flex-end;
-  margin: 2em;
+  margin: 0;
+  padding: 0 7.43%;
+  margin: 0 auto;
+}
+
+.login-page footer {
+  margin-top: auto;
 }
