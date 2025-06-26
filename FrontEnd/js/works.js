@@ -1,4 +1,4 @@
-// works.js
+// works.js - Module de l'affichage des travaux
 
 const CONFIG = {
   API_BASE_URL: "http://localhost:5678/api",

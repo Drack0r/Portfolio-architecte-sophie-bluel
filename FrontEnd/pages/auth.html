@@ -12,7 +12,7 @@
     />
     <meta name="description" content="" />
     <link rel="stylesheet" href="../assets/style.css" />
-    <script></script>
+    <script type="module" src="../js/auth.js" defer></script>
   </head>
 
   <body class="login-page">
@@ -33,16 +33,14 @@
       <section id="login">
         <h2>Log In</h2>
 
-        <form action="#" method="post">
+        <form action="#" method="post" id="login-form">
           <label for="email">E-mail</label>
-          <input type="text" name="email" id="email" />
+          <input type="email" name="email" id="email" required />
 
           <label for="password">Mot de passe</label>
-          <input type="text" name="password" id="password" />
+          <input type="password" name="password" id="password" required />
 
-          <span id="loginFailureSpan">
-            <!-- E-mail ou mot de passe incorrect ! -->
-          </span>
+          <span id="loginMessage"></span>
 
           <input type="submit" value="Se connecter" />
 

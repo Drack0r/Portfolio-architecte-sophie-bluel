@@ -1,4 +1,4 @@
-// main.js
+// main.js - Module principal de lancement
 
 import { fetchWorks } from "./api.js";
 import { setupFilters } from "./filters.js";

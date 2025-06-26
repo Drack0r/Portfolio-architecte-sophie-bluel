@@ -1,4 +1,4 @@
-// filters.js
+// filters.js - Module de gestion des filtres
 
 import { displayWorks } from "./works.js";
 
