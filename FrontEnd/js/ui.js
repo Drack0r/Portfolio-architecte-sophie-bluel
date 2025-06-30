@@ -28,3 +28,14 @@ export function setupAuthButton() {
     authLink.href = "./pages/auth.html";
   }
 }
+
+// Gérer l'affichage du bouton 'modifier'
+export function setupModBtn() {
+  const modifyBtn = document.getElementById("modifyBtn");
+
+  if (!isUserLoggedIn()) {
+    modifyBtn.classList.add("hidden");
+  } else {
+    modifyBtn.classList.remove("hidden");
+  }
+}

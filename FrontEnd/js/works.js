@@ -2,10 +2,10 @@
 
 import { CONFIG } from "./api.js";
 
-// Sélection de l'élément 'gallery'
+// Sélection de l'élément '.gallery'
 const gallery = document.querySelector(CONFIG.GALLERY_SELECTOR);
 
-// Créer un élément figure pour un travail
+// Créer un élément <figure> pour un travail
 export function createWorkElement(work) {
   const workFigure = document.createElement("figure");
 

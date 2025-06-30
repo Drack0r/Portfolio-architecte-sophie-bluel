@@ -250,6 +250,10 @@ li:hover {
   margin-top: 139px;
 }
 
+.hidden {
+  display: none;
+}
+
 #modifyBtn {
   position: absolute;
   top: 6px;
@@ -263,8 +267,9 @@ li:hover {
   /* display: none; */
 }
 
-#modifyBtn i {
-  margin-right: 4px;
+#modifyBtn:hover {
+  color: #b1663c;
+  transition: color 0.25s ease-in-out;
 }
 
 #api-error {
