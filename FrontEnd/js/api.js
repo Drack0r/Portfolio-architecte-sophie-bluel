@@ -1,5 +1,6 @@
 // api.js - Module de gestion de l'API
 
+// Configuration API
 export const CONFIG = {
   API_BASE_URL: "http://localhost:5678/api",
   GALLERY_SELECTOR: ".gallery",

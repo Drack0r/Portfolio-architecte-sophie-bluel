@@ -3,6 +3,7 @@
 import { fetchWorks } from "./api.js";
 import { setupFilters } from "./filters.js";
 import { displayWorks } from "./works.js";
+import { setupAuthButton } from "./ui.js";
 
 // Ciblage de la span 'api-error' pour catch les erreurs
 const apiErrorSpan = document.getElementById("api-error");
@@ -18,5 +19,11 @@ async function initializeGallery() {
   }
 }
 
+// Initialiser l'application
+function initializeApp() {
+  setupAuthButton();
+  initializeGallery();
+}
+
 // Appel de la fonction principale
-initializeGallery();
+initializeApp();
