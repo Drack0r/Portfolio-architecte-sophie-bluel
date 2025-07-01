@@ -65,11 +65,25 @@
       <section id="portfolio">
         <div class="title-container">
           <h2>Mes Projets</h2>
-          <button id="modifyBtn">
+          <button id="showModalBtn">
             <i class="fa-regular fa-pen-to-square"></i>
             <span>modifier</span>
           </button>
         </div>
+
+        <dialog id="modal">
+          <button id="closeBtnModal">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+          </button>
+
+          <h3>Galerie photo</h3>
+
+          <div id="modal-gallery"></div>
+
+          <hr />
+
+          <button id="addImgBtnModal">Ajouter une photo</button>
+        </dialog>
 
         <span id="api-error"></span>
 

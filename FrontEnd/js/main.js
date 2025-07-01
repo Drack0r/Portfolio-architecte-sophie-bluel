@@ -4,6 +4,7 @@ import { fetchWorks } from "./api.js";
 import { setupFilters } from "./filters.js";
 import { displayWorks } from "./works.js";
 import { setupAuthButton, setupModBtn } from "./ui.js";
+import { setupModal } from "./modal.js";
 
 // Ciblage de la span 'api-error' pour catch les erreurs
 const apiErrorSpan = document.getElementById("api-error");
@@ -23,8 +24,11 @@ async function initializeGallery() {
 function initializeApp() {
   setupAuthButton();
   setupModBtn();
+  setupModal();
   initializeGallery();
 }
 
 // Appel de la fonction principale
 initializeApp();
+
+// document.getElementById("modal").showModal();

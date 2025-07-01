@@ -31,11 +31,11 @@ export function setupAuthButton() {
 
 // Gérer l'affichage du bouton 'modifier'
 export function setupModBtn() {
-  const modifyBtn = document.getElementById("modifyBtn");
+  const showModalBtn = document.getElementById("showModalBtn");
 
   if (!isUserLoggedIn()) {
-    modifyBtn.classList.add("hidden");
+    showModalBtn.classList.add("hidden");
   } else {
-    modifyBtn.classList.remove("hidden");
+    showModalBtn.classList.remove("hidden");
   }
 }
