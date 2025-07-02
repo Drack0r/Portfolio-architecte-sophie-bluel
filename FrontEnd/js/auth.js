@@ -1,42 +1,50 @@
-// auth.js - Module de gestion d'authentification
+// auth.js - Module de gestion de l'authentification
 
-import { CONFIG } from "../js/api.js";
+import { fetchLogIn } from "../js/api.js";
+import { MESSAGE_TYPES, displayMessage } from "../js/ui.js";
+
+// Stockage du token
+function storeToken(token) {
+  localStorage.setItem("token", token);
+}
+
+// Gérer la redirection
+function redirectTo(url, delay = 0) {
+  setTimeout(() => {
+    window.location.href = url;
+  }, delay);
+}
+
+// Convertir l'erreur en message utilisateur
+function getErrorMessage(error) {
+  const status = error.message.includes("401") ? 401 : null;
+
+  switch (status) {
+    case 401:
+      return "E-mail ou mot de passe incorrect";
+    default:
+      return "Erreur de connexion";
+  }
+}
 
 // Fonction de connexion
 async function logIn(email, password, messageElement) {
   try {
-    // Envoi des identifiants à l'API pour authentification
-    const response = await fetch(`${CONFIG.API_BASE_URL}/users/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      // Authentification réussie
-      localStorage.setItem("token", data.token);
-      messageElement.style.color = "green";
-      messageElement.textContent = "Connexion réussie !";
-
-      // Redirection vers la page principale après une courte pause
-      setTimeout(() => {
-        window.location.href = "../index.html";
-      }, 1000);
-    } else {
-      // Gestion des différents cas d'erreur d'authentification
-      if (response.status === 401) {
-        messageElement.textContent = "E-mail ou mot de passe incorrect";
-      } else {
-        messageElement.textContent = data.message || "Erreur de connexion";
-      }
-    }
+    const data = await fetchLogIn(email, password);
+    storeToken(data.token);
+    displayMessage(
+      "Connexion réussie !",
+      messageElement,
+      MESSAGE_TYPES.SUCCESS
+    );
+    redirectTo("../index.html", 1000);
   } catch (error) {
-    // Gestion des erreurs réseau ou autres exceptions
-    messageElement.textContent = "Erreur réseau. Veuillez réessayer.";
+    const errorMessage = getErrorMessage(error);
+    displayMessage(errorMessage, messageElement, MESSAGE_TYPES.ERROR);
   }
 }
+
+// --- //
 
 // Sélection du formulaire de connexion
 const loginForm = document.getElementById("login-form");
@@ -65,5 +73,5 @@ export function isUserLoggedIn() {
 export function logOut() {
   localStorage.removeItem("token");
 
-  window.location.href = "./index.html";
+  redirectTo("./index.html");
 }

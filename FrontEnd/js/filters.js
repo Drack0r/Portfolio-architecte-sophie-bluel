@@ -22,9 +22,12 @@ function createFilterButton(category, isActive = false) {
 
 // Gérer l'état actif des boutons
 function setActiveFilter(clickedButton) {
-  document.querySelectorAll(".filter-btn").forEach((btn) => {
+  const filterBtns = document.querySelectorAll(".filter-btn");
+
+  filterBtns.forEach((btn) => {
     btn.classList.remove("filter-btn-active");
   });
+
   clickedButton.classList.add("filter-btn-active");
 }
 
@@ -35,22 +38,32 @@ function filterWorksByCategory(works, category) {
     : works.filter((work) => work.category.name === category);
 }
 
+// Vider les filtres
+function clearFilterContainer() {
+  const filtersContainer = document.querySelector(".filters");
+  filtersContainer.innerHTML = "";
+}
+
+// Attacher les événements à un bouton
+function attachFilterEvents(filterBtn, works, category) {
+  filterBtn.addEventListener("click", () => {
+    setActiveFilter(filterBtn);
+    const filteredWorks = filterWorksByCategory(works, category);
+    displayWorks(filteredWorks);
+  });
+}
+
 // Mise en place des filtres
 export function setupFilters(works) {
   const filtersContainer = document.querySelector(".filters");
-  filtersContainer.innerHTML = "";
 
-  const worksCategorie = getUniqueCategories(works);
+  clearFilterContainer();
 
-  worksCategorie.forEach((category, index) => {
+  const categories = getUniqueCategories(works);
+
+  categories.forEach((category, index) => {
     const filterBtn = createFilterButton(category, index === 0);
-
-    filterBtn.addEventListener("click", () => {
-      setActiveFilter(filterBtn);
-      const filteredWorks = filterWorksByCategory(works, category);
-      displayWorks(filteredWorks);
-    });
-
+    attachFilterEvents(filterBtn, works, category);
     filtersContainer.appendChild(filterBtn);
   });
 }

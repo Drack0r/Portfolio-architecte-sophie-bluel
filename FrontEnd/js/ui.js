@@ -2,6 +2,33 @@
 
 import { isUserLoggedIn, logOut } from "./auth.js";
 
+export const MESSAGE_TYPES = {
+  SUCCESS: "success",
+  ERROR: "error",
+  INFO: "info",
+};
+
+// Afficher les messages
+export function displayMessage(message, element, messageType) {
+  // Définir le message
+  element.textContent = message;
+
+  // Définir la couleur selon le type
+  switch (messageType) {
+    case MESSAGE_TYPES.SUCCESS:
+      element.style.color = "green";
+      break;
+    case MESSAGE_TYPES.ERROR:
+      element.style.color = "red";
+      break;
+    case MESSAGE_TYPES.INFO:
+      element.style.color = "blue";
+      break;
+    default:
+      element.style.color = "black";
+  }
+}
+
 // Gérer l'affichage du bouton login / logout
 export function setupAuthButton() {
   const authLink = document.getElementById("auth-link");
@@ -14,7 +41,7 @@ export function setupAuthButton() {
     authLink.href = "#";
 
     // Supprimer les anciens événements avant d'en ajouter un nouveau
-    authLink.replaceWith(authLink.cloneNode(true));
+    authLink.replaceWith(authLink.cloneNode(true)); //!
     const newAuthLink = document.getElementById("auth-link");
 
     // Ajouter l'événement "déconnexion"
@@ -39,3 +66,5 @@ export function setupModBtn() {
     showModalBtn.classList.remove("hidden");
   }
 }
+
+// fz icon trash
