@@ -27,7 +27,7 @@ function getErrorMessage(error) {
   }
 }
 
-// Fonction de connexion
+// Orchestrer la connexion
 async function logIn(email, password, messageElement) {
   try {
     const data = await fetchLogIn(email, password);
@@ -44,13 +44,11 @@ async function logIn(email, password, messageElement) {
   }
 }
 
-// --- //
-
 // Sélection du formulaire de connexion
 const loginForm = document.getElementById("login-form");
 
 if (loginForm) {
-  // Gestionnaire d'événement simplifié
+  // Gestionnaire de soumission du formulaire de connexion
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -60,16 +58,18 @@ if (loginForm) {
 
     await logIn(email, password, message);
   });
+} else {
+  console.log("Formulaire de connexion non trouvé sur cette page");
 }
 
-// Fonction pour savoir si l'utilisateur est connecté
+// Savoir si l'utilisateur est connecté
 export function isUserLoggedIn() {
   const token = localStorage.getItem("token");
 
   return token !== null && token !== undefined && token.trim() !== "";
 }
 
-// Fonction déconnexion
+// Déconnecte l'utilisateur
 export function logOut() {
   localStorage.removeItem("token");
 

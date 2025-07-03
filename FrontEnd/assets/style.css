@@ -142,6 +142,10 @@ a {
 }
 
 /** end reset css**/
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   max-width: 1140px;
   margin: auto;
