@@ -14,3 +14,7 @@ function initializeApp() {
 
 // Appel de la fonction principale
 initializeApp();
+
+// Fermer la modale lors du clic en dehors
+
+// --- //

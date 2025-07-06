@@ -33,6 +33,7 @@ function createWorkCaption(work) {
 // Créer l'élément <figure>
 export function createWorkElement(work, type = "gallery") {
   const workFigure = document.createElement("figure");
+  workFigure.setAttribute("data-id", work.id);
   const img = createWorkImage(work);
 
   workFigure.appendChild(img);
@@ -43,6 +44,7 @@ export function createWorkElement(work, type = "gallery") {
     workFigure.appendChild(figcaption);
   } else if (type === "modal") {
     const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-button");
     const deleteIcon = document.createElement("i");
     deleteIcon.className = "fa-solid fa-trash-can";
 
