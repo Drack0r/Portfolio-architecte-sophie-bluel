@@ -3,6 +3,8 @@
 import { fetchLogIn } from "../js/api.js";
 import { MESSAGE_TYPES, displayMessage } from "../js/ui.js";
 
+// ===== 1. FONCTIONS UTILITAIRES =====
+
 // Stockage du token
 function storeToken(token) {
   localStorage.setItem("token", token);
@@ -27,6 +29,22 @@ function getErrorMessage(error) {
   }
 }
 
+// ===== 2. GESTION DE LA SESSION =====
+
+// Savoir si l'utilisateur est connecté
+export function isUserLoggedIn() {
+  const token = localStorage.getItem("token");
+  return token !== null && token !== undefined && token.trim() !== "";
+}
+
+// Déconnecte l'utilisateur
+export function logOut() {
+  localStorage.removeItem("token");
+  redirectTo("./index.html");
+}
+
+// ===== 3. PROCESSUS DE CONNEXION =====
+
 // Orchestrer la connexion
 async function logIn(email, password, messageElement) {
   try {
@@ -44,6 +62,8 @@ async function logIn(email, password, messageElement) {
   }
 }
 
+// ===== 4. INITIALISATION DU FORMULAIRE =====
+
 // Sélection du formulaire de connexion
 const loginForm = document.getElementById("login-form");
 
@@ -60,18 +80,4 @@ if (loginForm) {
   });
 } else {
   console.log("Formulaire de connexion non trouvé sur cette page");
-}
-
-// Savoir si l'utilisateur est connecté
-export function isUserLoggedIn() {
-  const token = localStorage.getItem("token");
-
-  return token !== null && token !== undefined && token.trim() !== "";
-}
-
-// Déconnecte l'utilisateur
-export function logOut() {
-  localStorage.removeItem("token");
-
-  redirectTo("./index.html");
 }

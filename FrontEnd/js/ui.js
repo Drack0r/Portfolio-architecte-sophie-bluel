@@ -2,6 +2,8 @@
 
 import { isUserLoggedIn, logOut } from "./auth.js";
 
+// ===== 1. CONSTANTES ET ÉLÉMENTS DOM =====
+
 // Ciblage de la span 'api-error' pour catch les erreurs
 export const apiErrorSpan = document.getElementById("api-error");
 
@@ -11,6 +13,8 @@ export const MESSAGE_TYPES = {
   ERROR: "error",
   INFO: "info",
 };
+
+// ===== 2. GESTION DES MESSAGES =====
 
 // Afficher les messages
 export function displayMessage(message, element, messageType) {
@@ -31,6 +35,18 @@ export function displayMessage(message, element, messageType) {
     default:
       element.style.color = "black";
   }
+}
+
+// ===== 3. GESTION DU BOUTON D'AUTHENTIFICATION =====
+
+// Gérer le bouton login / logout
+export function setupAuthButton() {
+  const authLink = document.getElementById("auth-link");
+
+  if (!authLink) return;
+
+  configureAuthButton(authLink);
+  attachAuthEvents(authLink);
 }
 
 // Configurer l'apparence du bouton auth
@@ -54,15 +70,7 @@ function attachAuthEvents(authLink) {
   }
 }
 
-// Gérer le bouton login / logout
-export function setupAuthButton() {
-  const authLink = document.getElementById("auth-link");
-
-  if (!authLink) return;
-
-  configureAuthButton(authLink);
-  attachAuthEvents(authLink);
-}
+// ===== 4. GESTION DES ÉLÉMENTS D'INTERFACE CONDITIONNELS =====
 
 // Gérer l'affichage du bouton 'modifier'
 export function setupModBtn() {
