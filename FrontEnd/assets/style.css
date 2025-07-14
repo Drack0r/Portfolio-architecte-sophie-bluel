@@ -361,13 +361,60 @@ li:hover {
   top: -10px;
   height: 169px;
   width: 71.18%;
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
   background: #e8f1f6;
   border-radius: 10px;
 }
 
+.dropzone-content {
+  /* background: #9ad7fd; */
+  height: 137px;
+  width: 44.2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.dropzone-content i {
+  margin-bottom: 6px;
+  font-size: 4.8rem;
+  color: #b9c5cc;
+}
+
+#modalDropZoneAddImageButton {
+  height: 36px;
+  width: 100%;
+  margin-bottom: 7px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #306685;
+  border: none;
+  border-radius: 50px;
+  background: #cbd6dc;
+  cursor: pointer;
+}
+
+#modalDropZoneAddImageButton:hover {
+  color: #ececec;
+  background-color: #454545;
+  transition: 0.25s;
+}
+
+#modalDropZoneImageFormatSpan {
+  font-family: "Work Sans", sans-serif;
+  font-size: 10px;
+  color: #444444;
+}
+
 .imgInputDiv {
-  /* border: 1px dashed #000; */
   height: 77px;
   width: 71.18%;
   margin-bottom: 20px;
@@ -389,7 +436,6 @@ li:hover {
 }
 
 #imgCategoryInput {
-  /* margin-bottom: 20px; */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -443,7 +489,7 @@ li:hover {
 }
 
 #validImgBtn:hover {
-  background-color: #c6c6c6;
+  background-color: #454545;
   transition: background 0.25s ease-in-out;
 }
 

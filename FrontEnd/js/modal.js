@@ -217,11 +217,24 @@ function createModalDropzone() {
   const modalDropZone = document.createElement("div");
   modalDropZone.classList.add("dropzone");
 
-  // ----- //
+  const modalDropZoneContent = document.createElement("div");
+  modalDropZoneContent.classList.add("dropzone-content");
 
-  // ###
+  const modalDropZoneImageIcon = document.createElement("i");
+  modalDropZoneImageIcon.className = "fa-regular fa-image";
 
-  // ----- //
+  const modalDropZoneAddImageButton = document.createElement("button");
+  modalDropZoneAddImageButton.id = "modalDropZoneAddImageButton";
+  modalDropZoneAddImageButton.textContent = "+ Ajouter photo";
+
+  const modalDropZoneImageFormatSpan = document.createElement("span");
+  modalDropZoneImageFormatSpan.id = "modalDropZoneImageFormatSpan";
+  modalDropZoneImageFormatSpan.textContent = "jpg, png : 4mo max";
+
+  modalDropZone.appendChild(modalDropZoneContent);
+  modalDropZoneContent.appendChild(modalDropZoneImageIcon);
+  modalDropZoneContent.appendChild(modalDropZoneAddImageButton);
+  modalDropZoneContent.appendChild(modalDropZoneImageFormatSpan);
 
   return modalDropZone;
 }
