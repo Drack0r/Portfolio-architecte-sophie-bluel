@@ -314,7 +314,7 @@ li:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
-  margin-bottom: 60px;
+  margin-bottom: 37px;
 }
 
 #modal-gallery figure {
@@ -347,10 +347,54 @@ li:hover {
   color: #fff;
 }
 
+.dropzone {
+  position: relative;
+  top: -10px;
+  height: 169px;
+  width: 71.18%;
+  margin-bottom: 20px;
+  background: #e8f1f6;
+  border-radius: 10px;
+}
+
+.imgInputDiv {
+  /* border: 1px dashed #000; */
+  height: 77px;
+  width: 71.18%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.imgLabel {
+  font-weight: 500;
+}
+
+.imgInput {
+  height: 51px;
+  padding: 0 1rem;
+  border: none;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#imgCategoryInput {
+  /* margin-bottom: 20px; */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("/assets/icons/down-arrow.svg");
+  background-repeat: no-repeat;
+  background-position: right 22px center;
+  cursor: pointer;
+}
+
 #modal hr {
   height: 0;
   width: 72%;
   background: #b3b3b3;
+  margin-top: 27px;
   margin-bottom: 38px;
 }
 
@@ -370,6 +414,27 @@ li:hover {
 
 #addImgBtnModal:hover {
   background-color: #2e9784;
+  transition: background 0.25s ease-in-out;
+}
+
+#validImgBtn {
+  position: relative;
+  top: -6px;
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  height: 36px;
+  width: 40%;
+  margin-bottom: 25px;
+  border: none;
+  border-radius: 60px;
+  background: #a7a7a7;
+  color: #fff;
+  cursor: pointer;
+}
+
+#validImgBtn:hover {
+  background-color: #c6c6c6;
   transition: background 0.25s ease-in-out;
 }
 

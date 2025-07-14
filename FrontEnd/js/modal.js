@@ -6,6 +6,7 @@ const modal = document.getElementById("modal");
 const modalGallery = document.getElementById("modal-gallery");
 const showModalBtn = document.getElementById("showModalBtn");
 const closeModalBtn = document.getElementById("closeBtnModal");
+const addImgBtn = document.getElementById("addImgBtnModal");
 
 // ===== 1. POINT D'ENTRÉE PRINCIPAL =====
 
@@ -13,6 +14,7 @@ const closeModalBtn = document.getElementById("closeBtnModal");
 export function setupModal() {
   setupModalEvents();
   initModalGallery();
+  setupAddImageButton();
 }
 
 // ===== 2. ÉVÉNEMENTS PRINCIPAUX DE LA MODALE =====
@@ -87,7 +89,8 @@ function attachDeleteEvent(button) {
 
 // ===== 5. OPÉRATIONS DE SUPPRESSION =====
 
-// Supprime un élément par son ID
+// === FONCTION PRINCIPALE ===
+// Supprime un travail avec le data-id
 async function deleteWorkById(dataId) {
   try {
     const response = await fetchDelete(dataId);
@@ -105,9 +108,10 @@ async function deleteWorkById(dataId) {
   }
 }
 
+// === FONCTIONS UTILITAIRES ===
 // Sélectionne un élément avec le même ID
 function selectSameDataId(dataId) {
-  const elementsWithSameId = document.querySelectorAll(`[data-id="${dataId}"]`);
+  const elementsWithSameId = document.querySelectorAll(`[data-id="${dataId}"]`); //? workId
   return elementsWithSameId;
 }
 
@@ -115,5 +119,157 @@ function selectSameDataId(dataId) {
 function removeElements(elements) {
   elements.forEach((element) => {
     element.remove();
+  });
+}
+
+// ===== 6. GESTION DU FORMULAIRE D'AJOUT =====
+
+// === FONCTIONS PRINCIPALES ===
+function setupAddImageButton() {
+  addImgBtn.addEventListener("click", async () => {
+    await setupAddImageModal();
+  });
+}
+
+async function setupAddImageModal() {
+  switchToAddImageView();
+  await buildAddImageForm();
+  setupAddImageFormEvents();
+}
+
+// === FONCTIONS DE COORDINATION ===
+function switchToAddImageView() {
+  hideGalleryModal();
+  hideGalleryModalButton();
+  changeModalTitle("Ajout photo");
+}
+
+async function buildAddImageForm() {
+  const formElements = await createFormElements();
+  assembleFormElements(formElements);
+}
+
+async function createFormElements() {
+  const modalTitle = modal.querySelector("h3");
+  const dropzone = createModalDropzone();
+  const titleField = createImageTitleElement();
+  const categoryField = await createImageCategoryElement();
+  const submitButton = createValidateButton();
+
+  return { modalTitle, dropzone, titleField, categoryField, submitButton };
+}
+
+function assembleFormElements({
+  modalTitle,
+  dropzone,
+  titleField,
+  categoryField,
+  submitButton,
+}) {
+  modalTitle.insertAdjacentElement("afterend", dropzone);
+  dropzone.insertAdjacentElement("afterend", titleField);
+  titleField.insertAdjacentElement("afterend", categoryField);
+  modal.appendChild(submitButton);
+}
+
+function setupAddImageFormEvents() {
+  // À implémenter : événements de validation, drag&drop, etc.
+}
+
+// === FONCTIONS DE MANIPULATION DOM ===
+function hideGalleryModal() {
+  modalGallery.style.display = "none";
+}
+
+function hideGalleryModalButton() {
+  addImgBtn.style.display = "none";
+}
+
+function changeModalTitle(title) {
+  const modalTitle = modal.querySelector("h3");
+  modalTitle.textContent = title;
+  return modalTitle;
+}
+
+// === FONCTIONS DE CRÉATION D'ÉLÉMENTS ===
+function createModalDropzone() {
+  const modalDropZone = document.createElement("div");
+  modalDropZone.classList.add("dropzone");
+  return modalDropZone;
+}
+
+function createImageTitleElement() {
+  const imgTitleDiv = document.createElement("div");
+  imgTitleDiv.classList.add("imgInputDiv");
+
+  const imgTitleLabel = document.createElement("label");
+  imgTitleLabel.textContent = "Titre";
+  imgTitleLabel.classList.add("imgLabel");
+  imgTitleLabel.setAttribute("for", "imgTitleInput");
+
+  const imgTitleInput = document.createElement("input");
+  imgTitleInput.classList.add("imgInput");
+  imgTitleInput.setAttribute("id", "imgTitleInput");
+  imgTitleInput.setAttribute("type", "text");
+
+  imgTitleDiv.appendChild(imgTitleLabel);
+  imgTitleDiv.appendChild(imgTitleInput);
+
+  return imgTitleDiv;
+}
+
+async function createImageCategoryElement() {
+  const imgCategoryDiv = document.createElement("div");
+  imgCategoryDiv.classList.add("imgInputDiv");
+
+  const imgCategoryLabel = document.createElement("label");
+  imgCategoryLabel.textContent = "Catégorie";
+  imgCategoryLabel.classList.add("imgLabel");
+  imgCategoryLabel.setAttribute("for", "imgCategoryInput");
+
+  const imgCategoryInput = document.createElement("select");
+  imgCategoryInput.classList.add("imgInput");
+  imgCategoryInput.setAttribute("id", "imgCategoryInput");
+
+  await populateCategorySelect(imgCategoryInput);
+
+  imgCategoryDiv.appendChild(imgCategoryLabel);
+  imgCategoryDiv.appendChild(imgCategoryInput);
+
+  return imgCategoryDiv;
+}
+
+function createValidateButton() {
+  const validImgBtn = document.createElement("button");
+  validImgBtn.textContent = "Valider";
+  validImgBtn.setAttribute("id", "validImgBtn");
+
+  return validImgBtn;
+}
+
+// === FONCTIONS DE GESTION DES CATÉGORIES ===
+async function populateCategorySelect(selectElement) {
+  const categories = await getUniqueCategories();
+  const options = createCategoryOptions(categories);
+
+  options.forEach((option) => selectElement.appendChild(option));
+}
+
+async function getUniqueCategories() {
+  try {
+    const works = await fetchWorks();
+    return [...new Set(works.map((work) => work.category.name))];
+  } catch (error) {
+    console.error(`Erreur lors du chargement des catégories : ${error}`);
+    return [];
+  }
+}
+
+function createCategoryOptions(categories) {
+  return categories.map((categoryName) => {
+    const option = document.createElement("option");
+    option.value = categoryName;
+    option.textContent = categoryName;
+    return option;
   });
 }

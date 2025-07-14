@@ -23,3 +23,5 @@ function initializeApp() {
 
 // Appel de la fonction principale
 initializeApp();
+
+// Outils veilles
