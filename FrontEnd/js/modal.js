@@ -3,6 +3,7 @@ import { fetchWorks, fetchDelete } from "./api.js";
 import { createWorkElement } from "./works.js";
 
 const modal = document.getElementById("modal");
+const modalContent = document.querySelector(".modal-content");
 const modalGallery = document.getElementById("modal-gallery");
 const showModalBtn = document.getElementById("showModalBtn");
 const closeModalBtn = document.getElementById("closeBtnModal");
@@ -34,8 +35,28 @@ function showModal() {
 
 // Fermer la modale
 function closeModal() {
+  attachCloseButtonEvent();
+  attachCloseBackdropEvent();
+}
+
+function attachCloseButtonEvent() {
   closeModalBtn.addEventListener("click", () => {
     modal.close();
+    return;
+  });
+}
+
+function attachCloseBackdropEvent() {
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.close();
+    }
+  });
+
+  // Empêcher la propagation des clics depuis le contenu de la modale
+  const modalContent = modal.querySelector(".modal-content");
+  modalContent.addEventListener("click", (event) => {
+    event.stopPropagation();
   });
 }
 
@@ -169,7 +190,7 @@ function assembleFormElements({
   modalTitle.insertAdjacentElement("afterend", dropzone);
   dropzone.insertAdjacentElement("afterend", titleField);
   titleField.insertAdjacentElement("afterend", categoryField);
-  modal.appendChild(submitButton);
+  modalContent.appendChild(submitButton);
 }
 
 function setupAddImageFormEvents() {
@@ -195,6 +216,13 @@ function changeModalTitle(title) {
 function createModalDropzone() {
   const modalDropZone = document.createElement("div");
   modalDropZone.classList.add("dropzone");
+
+  // ----- //
+
+  // ###
+
+  // ----- //
+
   return modalDropZone;
 }
 
