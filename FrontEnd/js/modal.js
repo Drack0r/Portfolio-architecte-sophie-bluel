@@ -124,12 +124,8 @@ async function deleteWorkById(dataId) {
   try {
     // Vérifier le token avant la requête
     const token = localStorage.getItem("token");
-    console.log("Token disponible:", token ? "Oui" : "Non");
-    console.log("Token value:", token);
 
     const response = await fetchDelete(dataId);
-    console.log("Response status:", response.status);
-    console.log("Response ok:", response.ok);
 
     if (response.ok) {
       const elementsWithSameId = selectSameDataId(dataId);

@@ -78,6 +78,4 @@ if (loginForm) {
 
     await logIn(email, password, message);
   });
-} else {
-  console.log("Formulaire de connexion non trouvé sur cette page");
 }
