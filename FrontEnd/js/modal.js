@@ -28,15 +28,21 @@ function setupModalEvents() {
 
 // Afficher la modale
 function showModal() {
-  showModalBtn.addEventListener("click", () => {
-    modal.showModal();
-  });
+  attachShowButtonEvent();
 }
 
 // Fermer la modale
 function closeModal() {
   attachCloseButtonEvent();
   attachCloseBackdropEvent();
+}
+
+function attachShowButtonEvent() {
+  showModalBtn.addEventListener("click", () => {
+    modal.showModal();
+    // Toujours afficher la vue galerie par défaut
+    setupGalleryModal();
+  });
 }
 
 function attachCloseButtonEvent() {
@@ -154,8 +160,14 @@ function setupAddImageButton() {
 
 async function setupAddImageModal() {
   switchToAddImageView();
+  createReturnToGalleryButton();
   await buildAddImageForm();
   setupAddImageFormEvents();
+}
+
+function setupGalleryModal() {
+  switchToGalleryView();
+  revealGaleryModalElements();
 }
 
 // === FONCTIONS DE COORDINATION ===
@@ -163,6 +175,14 @@ function switchToAddImageView() {
   hideGalleryModal();
   hideGalleryModalButton();
   changeModalTitle("Ajout photo");
+}
+
+function switchToGalleryView() {
+  hideModalDropzone();
+  hideModalForm();
+  hideAddImageSubmitButton();
+  hideReturnToGalleryButton();
+  changeModalTitle("Galerie photo");
 }
 
 async function buildAddImageForm() {
@@ -193,6 +213,34 @@ function assembleFormElements({
   modalContent.appendChild(submitButton);
 }
 
+function createReturnToGalleryButton() {
+  createReturnToGalleryButtonElement();
+  attachReturnToGalleryEvent();
+}
+
+function createReturnToGalleryButtonElement() {
+  const returnToGalleryBtn = document.createElement("button");
+  returnToGalleryBtn.id = "returnToGalleryBtn";
+
+  const returnToGalleryBtnIcon = document.createElement("i");
+  returnToGalleryBtnIcon.className = "fa-solid fa-arrow-left";
+
+  modal.appendChild(returnToGalleryBtn);
+  returnToGalleryBtn.appendChild(returnToGalleryBtnIcon);
+}
+
+function attachReturnToGalleryEvent() {
+  const returnToGalleryBtn = document.getElementById("returnToGalleryBtn");
+  returnToGalleryBtn.addEventListener("click", () => {
+    setupGalleryModal();
+  });
+}
+
+function revealGaleryModalElements() {
+  modalGallery.style.display = "flex";
+  addImgBtn.style.display = "block";
+}
+
 function setupAddImageFormEvents() {
   // À implémenter : événements de validation, drag&drop, etc.
 }
@@ -204,6 +252,34 @@ function hideGalleryModal() {
 
 function hideGalleryModalButton() {
   addImgBtn.style.display = "none";
+}
+
+function hideModalDropzone() {
+  const modalDropZone = document.querySelector(".dropzone");
+  if (modalDropZone) {
+    modalDropZone.style.display = "none";
+  }
+}
+
+function hideModalForm() {
+  const modalForms = document.querySelectorAll(".modal-content > .imgInputDiv");
+  modalForms.forEach((form) => {
+    form.style.display = "none";
+  });
+}
+
+function hideAddImageSubmitButton() {
+  const submitButton = document.getElementById("validImgBtn");
+  if (submitButton) {
+    submitButton.remove();
+  }
+}
+
+function hideReturnToGalleryButton() {
+  const returnToGalleryBtn = document.getElementById("returnToGalleryBtn");
+  if (returnToGalleryBtn) {
+    returnToGalleryBtn.remove();
+  }
 }
 
 function changeModalTitle(title) {
@@ -223,9 +299,23 @@ function createModalDropzone() {
   const modalDropZoneImageIcon = document.createElement("i");
   modalDropZoneImageIcon.className = "fa-regular fa-image";
 
-  const modalDropZoneAddImageButton = document.createElement("button");
-  modalDropZoneAddImageButton.id = "modalDropZoneAddImageButton";
-  modalDropZoneAddImageButton.textContent = "+ Ajouter photo";
+  // Bouton personnalisé
+  const customUploadBtn = document.createElement("button");
+  customUploadBtn.type = "button";
+  customUploadBtn.textContent = "+ Ajouter photo";
+  customUploadBtn.classList.add("custom-upload-btn");
+
+  // Input file caché
+  const modalDropZoneImageInput = document.createElement("input");
+  modalDropZoneImageInput.id = "modalDropZoneImageInput";
+  modalDropZoneImageInput.type = "file";
+  modalDropZoneImageInput.accept = "image/png, image/jpeg";
+  modalDropZoneImageInput.style.display = "none";
+
+  // Événement pour déclencher l'input
+  customUploadBtn.addEventListener("click", () => {
+    modalDropZoneImageInput.click();
+  });
 
   const modalDropZoneImageFormatSpan = document.createElement("span");
   modalDropZoneImageFormatSpan.id = "modalDropZoneImageFormatSpan";
@@ -233,7 +323,8 @@ function createModalDropzone() {
 
   modalDropZone.appendChild(modalDropZoneContent);
   modalDropZoneContent.appendChild(modalDropZoneImageIcon);
-  modalDropZoneContent.appendChild(modalDropZoneAddImageButton);
+  modalDropZoneContent.appendChild(customUploadBtn);
+  modalDropZoneContent.appendChild(modalDropZoneImageInput);
   modalDropZoneContent.appendChild(modalDropZoneImageFormatSpan);
 
   return modalDropZone;

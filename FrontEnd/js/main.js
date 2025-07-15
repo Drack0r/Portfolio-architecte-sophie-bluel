@@ -20,8 +20,4 @@ function initializeApp() {
 }
 
 // ===== 2. LANCEMENT DE L'APPLICATION =====
-
-// Appel de la fonction principale
 initializeApp();
-
-// Outils veilles
