@@ -42,10 +42,17 @@ export async function fetchLogIn(email, password) {
 
 // Requête DELETE pour supprimer un travail
 export async function fetchDelete(dataId) {
+  const token = localStorage.getItem("token");
+
+  // Vérifier si le token existe
+  if (!token) {
+    throw new Error("Token d'authentification manquant");
+  }
+
   const response = await fetch(`${CONFIG.API_BASE_URL}/works/${dataId}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
