@@ -7,15 +7,17 @@ import { apiErrorSpan } from "./ui.js";
 
 // ===== 1. CONSTANTES ET ÉLÉMENTS DOM =====
 
-// Sélection de l'élément '.gallery'
+// Sélection de l'élément gallerie
 const gallery = document.querySelector(CONFIG.GALLERY_SELECTOR);
+
+// Fetch des travaux depuis l'API
+export const works = await fetchWorks();
 
 // ===== 2. POINT D'ENTRÉE PRINCIPAL =====
 
 // Initialiser la gallerie
-export async function initializeGallery() {
+export function initializeGallery() {
   try {
-    const works = await fetchWorks();
     displayWorks(works);
     setupFilters(works);
   } catch (error) {
@@ -47,11 +49,11 @@ export function createWorkElement(work, type = "gallery") {
   const workFigure = document.createElement("figure");
   workFigure.setAttribute("data-id", work.id);
   const img = createWorkImage(work);
-
   workFigure.appendChild(img);
 
   if (type === "gallery") {
     const figcaption = createWorkCaption(work);
+
     workFigure.appendChild(figcaption);
   } else if (type === "modal") {
     const deleteBtn = document.createElement("button");

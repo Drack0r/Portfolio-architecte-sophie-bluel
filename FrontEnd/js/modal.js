@@ -1,6 +1,6 @@
 // modal.js - Module de gestion de modale
-import { fetchWorks, fetchDelete } from "./api.js";
-import { createWorkElement } from "./works.js";
+import { fetchDelete } from "./api.js";
+import { works, createWorkElement } from "./works.js";
 
 const modal = document.getElementById("modal");
 const modalContent = document.querySelector(".modal-content");
@@ -71,9 +71,8 @@ function attachCloseBackdropEvent() {
 // ===== 3. GESTION DE LA GALERIE =====
 
 // Initialiser la gallerie
-async function initModalGallery() {
+function initModalGallery() {
   try {
-    const works = await fetchWorks();
     refreshModalGallery(works);
   } catch (error) {
     console.error(`Erreur : ${error.message}`);
@@ -248,7 +247,56 @@ function revealGaleryModalElements() {
 }
 
 function setupAddImageFormEvents() {
-  // À implémenter : événements de validation, drag&drop, etc.
+  setupImagePreview();
+}
+
+// === FONCTIONS DE GESTION DE L'APERÇU D'IMAGE ===
+function setupImagePreview() {
+  const imageInput = document.getElementById("modalDropZoneImageInput");
+
+  imageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      displayImagePreview(file);
+    } else {
+      console.error("Veuillez sélectionner une image valide (jpg, png).");
+    }
+  });
+}
+
+function displayImagePreview(file) {
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const dropzoneContent = document.querySelector(".dropzone-content");
+    hideDropzonElements();
+    const previewImage = createPreviewImage(e.target.result);
+    dropzoneContent.appendChild(previewImage);
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function createPreviewImage(imageSrc) {
+  const previewImage = document.createElement("img");
+  previewImage.src = imageSrc;
+  previewImage.alt = "Aperçu de l'image";
+  previewImage.id = "imagePreview";
+
+  return previewImage;
+}
+
+function cleanupImagePreview() {
+  const previewImage = document.getElementById("imagePreview");
+  if (previewImage) {
+    previewImage.remove();
+  }
+  showDropzoneElements();
+  const imageInput = document.getElementById("modalDropZoneImageInput");
+  if (imageInput) {
+    imageInput.value = "";
+  }
 }
 
 // === FONCTIONS DE MANIPULATION DOM ===
@@ -260,10 +308,33 @@ function hideGalleryModalButton() {
   addImgBtn.style.display = "none";
 }
 
+function hideDropzonElements() {
+  const dropzoneContent = document.querySelector(".dropzone-content");
+  const icon = dropzoneContent.querySelector("i");
+  const button = dropzoneContent.querySelector(".custom-upload-btn");
+  const span = dropzoneContent.querySelector("#modalDropZoneImageFormatSpan");
+
+  if (icon) icon.style.display = "none";
+  if (button) button.style.display = "none";
+  if (span) span.style.display = "none";
+}
+
+function showDropzoneElements() {
+  const dropzoneContent = document.querySelector(".dropzone-content");
+  const icon = dropzoneContent.querySelector("i");
+  const button = dropzoneContent.querySelector(".custom-upload-btn");
+  const span = dropzoneContent.querySelector("#modalDropZoneImageFormatSpan");
+
+  if (icon) icon.style.display = "block";
+  if (button) button.style.display = "block";
+  if (span) span.style.display = "block";
+}
+
 function hideModalDropzone() {
   const modalDropZone = document.querySelector(".dropzone");
   if (modalDropZone) {
     modalDropZone.style.display = "none";
+    cleanupImagePreview();
   }
 }
 
@@ -387,15 +458,14 @@ function createValidateButton() {
 
 // === FONCTIONS DE GESTION DES CATÉGORIES ===
 async function populateCategorySelect(selectElement) {
-  const categories = await getUniqueCategories();
+  const categories = getUniqueCategories();
   const options = createCategoryOptions(categories);
 
   options.forEach((option) => selectElement.appendChild(option));
 }
 
-async function getUniqueCategories() {
+function getUniqueCategories() {
   try {
-    const works = await fetchWorks();
     return [...new Set(works.map((work) => work.category.name))];
   } catch (error) {
     console.error(`Erreur lors du chargement des catégories : ${error}`);

@@ -2,7 +2,6 @@
 
 // ===== 1. CONFIGURATION =====
 
-// Constante de configuration
 export const CONFIG = {
   API_BASE_URL: "http://localhost:5678/api",
   GALLERY_SELECTOR: ".gallery",
