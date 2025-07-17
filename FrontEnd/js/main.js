@@ -2,7 +2,7 @@
 
 import { initializeGallery } from "./works.js";
 import { setupAuthButton, setupModBtn } from "./ui.js";
-import { setupModal } from "./modal.js";
+import { setupModal } from "./modal-manager.js";
 
 // ===== 1. POINT D'ENTRÉE PRINCIPAL =====
 
