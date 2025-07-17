@@ -47,7 +47,7 @@ export function clearGallery() {
 // Créer l'élément <figure>
 export function createWorkElement(work, type = "gallery") {
   const workFigure = document.createElement("figure");
-  workFigure.setAttribute("data-id", work.id);
+  workFigure.setAttribute("data-work-id", work.id);
   const img = createWorkImage(work);
   workFigure.appendChild(img);
 

@@ -20,7 +20,7 @@ export class WorkDeleter {
   }
 
   removeFromDOM(dataId) {
-    const elements = document.querySelectorAll(`[data-id="${dataId}"]`);
+    const elements = document.querySelectorAll(`[data-work-id="${dataId}"]`);
     elements.forEach((element) => element.remove());
   }
 }

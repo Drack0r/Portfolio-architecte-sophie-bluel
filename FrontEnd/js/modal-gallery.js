@@ -39,7 +39,7 @@ export class ModalGallery {
     const deleteButtons = document.querySelectorAll(".delete-button");
     deleteButtons.forEach((button) => {
       button.addEventListener("click", async () => {
-        const dataId = button.parentNode.getAttribute("data-id");
+        const dataId = button.parentNode.getAttribute("data-work-id");
         await this.workDeleter.deleteById(dataId);
       });
     });

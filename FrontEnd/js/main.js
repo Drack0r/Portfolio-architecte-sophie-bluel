@@ -8,18 +8,13 @@ import { setupModal } from "./modal-manager.js";
 
 // Initialiser l'application
 function initializeApp() {
-  // Configuration de l'interface utilisateur
   setupAuthButton();
   setupModBtn();
 
-  // Configuration des fonctionnalités interactives
   setupModal();
 
-  // Chargement des données et affichage
   initializeGallery();
 }
 
 // ===== 2. LANCEMENT DE L'APPLICATION =====
 initializeApp();
-
-// workId

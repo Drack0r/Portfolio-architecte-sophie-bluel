@@ -6,13 +6,14 @@ export class FormBuilder {
     const dropzone = this.createDropzone();
     const titleField = this.createTitleField();
     const categoryField = await this.createCategoryField();
+    const uiMessageSpan = this.createUiMessageSpan();
     const submitButton = this.createSubmitButton();
 
-    return { dropzone, titleField, categoryField, submitButton };
+    return { dropzone, titleField, categoryField, uiMessageSpan, submitButton };
   }
 
   assembleElements(
-    { dropzone, titleField, categoryField, submitButton },
+    { dropzone, titleField, categoryField, uiMessageSpan, submitButton },
     modal,
     modalContent
   ) {
@@ -20,6 +21,7 @@ export class FormBuilder {
     modalTitle.insertAdjacentElement("afterend", dropzone);
     dropzone.insertAdjacentElement("afterend", titleField);
     titleField.insertAdjacentElement("afterend", categoryField);
+    categoryField.insertAdjacentElement("afterend", uiMessageSpan);
     modalContent.appendChild(submitButton);
   }
 
@@ -127,6 +129,15 @@ export class FormBuilder {
     validImgBtn.setAttribute("id", "validImgBtn");
 
     return validImgBtn;
+  }
+
+  createUiMessageSpan() {
+    const uiMessageSpan = document.createElement("span");
+    uiMessageSpan.textContent = "Message d'erreur";
+    uiMessageSpan.id = "uiMessageSpan";
+    uiMessageSpan.style.display = "none";
+
+    return uiMessageSpan;
   }
 
   getUniqueCategories() {

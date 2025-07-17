@@ -461,6 +461,14 @@ li:hover {
   cursor: pointer;
 }
 
+#uiMessageSpan {
+  display: block;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
 #modal hr {
   height: 0;
   width: 72%;

@@ -1,6 +1,7 @@
 // modal-add-image.js - Formulaire d'ajout
 import { FormBuilder } from "./form-builder.js";
 import { ImagePreview } from "./image-preview.js";
+import { displayMessage, MESSAGE_TYPES } from "./ui.js";
 
 export class ModalAddImage {
   constructor(modalManager) {
@@ -24,6 +25,7 @@ export class ModalAddImage {
     this.createReturnButton();
     await this.buildForm();
     this.setupFormEvents();
+    this.hideMessage();
   }
 
   hide() {
@@ -31,6 +33,7 @@ export class ModalAddImage {
     this.hideForm();
     this.hideSubmitButton();
     this.hideReturnButton();
+    this.hideMessage();
   }
 
   async buildForm() {
@@ -59,6 +62,44 @@ export class ModalAddImage {
 
   setupFormEvents() {
     this.imagePreview.setup();
+    this.setupFormValidation();
+  }
+
+  setupFormValidation() {
+    const submitBtn = document.getElementById("validImgBtn");
+    const messageSpan = document.getElementById("uiMessageSpan");
+
+    submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      if (this.validateForm()) {
+        displayMessage(
+          "Formulaire validé !",
+          messageSpan,
+          MESSAGE_TYPES.SUCCESS
+        );
+        messageSpan.style.display = "block";
+      } else {
+        displayMessage(
+          "Veuillez remplir tous les champs obligatoires",
+          messageSpan,
+          MESSAGE_TYPES.ERROR
+        );
+        messageSpan.style.display = "block";
+      }
+    });
+  }
+
+  validateForm() {
+    const imageInput = document.getElementById("modalDropZoneImageInput");
+    const titleInput = document.getElementById("imgTitleInput");
+    const categoryInput = document.getElementById("imgCategoryInput");
+
+    return (
+      imageInput.files.length > 0 &&
+      titleInput.value.trim() !== "" &&
+      categoryInput.value !== ""
+    );
   }
 
   // ===== Méthodes utitlitaires ===== //
@@ -87,6 +128,13 @@ export class ModalAddImage {
   hideReturnButton() {
     const returnBtn = document.getElementById("returnToGalleryBtn");
     if (returnBtn) returnBtn.remove();
+  }
+
+  hideMessage() {
+    const messageSpan = document.getElementById("uiMessageSpan");
+    if (messageSpan) {
+      messageSpan.style.display = "none";
+    }
   }
 
   changeTitle(title) {
