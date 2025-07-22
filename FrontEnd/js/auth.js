@@ -1,7 +1,7 @@
 // auth.js - Module de gestion de l'authentification
 
-import { fetchLogIn } from "../js/api.js";
-import { MESSAGE_TYPES, displayMessage } from "../js/ui.js";
+import { fetchLogIn } from "./api.js";
+import { MESSAGE_TYPES, displayMessage } from "./ui.js";
 
 // ===== 1. FONCTIONS UTILITAIRES =====
 

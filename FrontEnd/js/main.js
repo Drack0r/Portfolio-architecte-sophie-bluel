@@ -2,19 +2,23 @@
 
 import { initializeGallery } from "./works.js";
 import { setupAuthButton, setupModBtn } from "./ui.js";
-import { setupModal } from "./modal-manager.js";
+import { setupModal } from "./modal/modal-manager.js";
 
 // ===== 1. POINT D'ENTRÉE PRINCIPAL =====
 
 // Initialiser l'application
 function initializeApp() {
-  setupAuthButton();
-  setupModBtn();
-
-  setupModal();
-
-  initializeGallery();
+  try {
+    setupAuthButton();
+    setupModBtn();
+    setupModal();
+    initializeGallery();
+  } catch (error) {
+    console.error(`Erreur lors de l'initialisation de l'app : ${error}`);
+  }
 }
 
 // ===== 2. LANCEMENT DE L'APPLICATION =====
 initializeApp();
+
+// formData

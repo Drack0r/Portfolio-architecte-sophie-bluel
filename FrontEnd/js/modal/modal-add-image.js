@@ -1,7 +1,8 @@
 // modal-add-image.js - Formulaire d'ajout
 import { FormBuilder } from "./form-builder.js";
 import { ImagePreview } from "./image-preview.js";
-import { displayMessage, MESSAGE_TYPES } from "./ui.js";
+import { displayMessage, MESSAGE_TYPES } from "../ui.js";
+import { fetchPostWork } from "../api.js";
 
 export class ModalAddImage {
   constructor(modalManager) {
@@ -18,6 +19,7 @@ export class ModalAddImage {
       this.modalManager.showAddImageView();
     });
   }
+  // addImageViewListener
 
   async show() {
     this.hideGalleryElements();
@@ -69,16 +71,56 @@ export class ModalAddImage {
     const submitBtn = document.getElementById("validImgBtn");
     const messageSpan = document.getElementById("uiMessageSpan");
 
-    submitBtn.addEventListener("click", (e) => {
+    submitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
 
       if (this.validateForm()) {
-        displayMessage(
-          "Formulaire validé !",
-          messageSpan,
-          MESSAGE_TYPES.SUCCESS
-        );
-        messageSpan.style.display = "block";
+        try {
+          // Récupérer les valeurs du formulaire
+          const imageInput = document.getElementById("modalDropZoneImageInput");
+          const titleInput = document.getElementById("imgTitleInput");
+          const categoryInput = document.getElementById("imgCategoryInput");
+
+          // Récupérer le fichier image (premier fichier sélectionné)
+          const imageFile = imageInput.files[0];
+          const title = titleInput.value.trim();
+          const categoryId = categoryInput.value;
+
+          console.log("Données à envoyer:", { title, imageFile, categoryId });
+
+          // Désactiver le bouton pendant l'envoi
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Envoi en cours...";
+
+          // Envoyer les données à l'API
+          const newWork = await fetchPostWork(title, imageFile, categoryId);
+
+          // Afficher un message de succès
+          displayMessage(
+            "Formulaire validé !",
+            messageSpan,
+            MESSAGE_TYPES.SUCCESS
+          );
+          messageSpan.style.display = "block";
+
+          // Optionnel : fermer la modal après un délai ou revenir à la galerie
+          setTimeout(() => {
+            this.modalManager.showGalleryView();
+            // Vous pourriez aussi vouloir recharger la galerie ici
+          }, 1500);
+        } catch (error) {
+          console.error("Erreur lors de l'ajout du travail:", error);
+          displayMessage(
+            `Erreur lors de l'ajout : ${error.message}`,
+            messageSpan,
+            MESSAGE_TYPES.ERROR
+          );
+          messageSpan.style.display = "block";
+        } finally {
+          // Réactiver le bouton
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Valider";
+        }
       } else {
         displayMessage(
           "Veuillez remplir tous les champs obligatoires",

@@ -1,5 +1,5 @@
 // form-builder.js - Construction du formulaire
-import { works } from "./works.js";
+import { works } from "../works.js";
 
 export class FormBuilder {
   async createElements() {
@@ -115,10 +115,10 @@ export class FormBuilder {
   }
 
   createCategoryOptions(categories) {
-    return categories.map((categoryName) => {
+    return categories.map((category) => {
       const option = document.createElement("option");
-      option.value = categoryName;
-      option.textContent = categoryName;
+      option.value = category.id;
+      option.textContent = category.name;
       return option;
     });
   }
@@ -142,7 +142,18 @@ export class FormBuilder {
 
   getUniqueCategories() {
     try {
-      return [...new Set(works.map((work) => work.category.name))];
+      const categoryMap = new Map();
+
+      works.forEach((work) => {
+        if (!categoryMap.has(work.category.id)) {
+          categoryMap.set(work.category.id, {
+            id: work.category.id,
+            name: work.category.name,
+          });
+        }
+      });
+
+      return Array.from(categoryMap.values());
     } catch (error) {
       console.error(`Erreur lors du chargement des catégories : ${error}`);
       return [];

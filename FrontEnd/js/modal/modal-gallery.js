@@ -1,5 +1,5 @@
 // modal-gallery.js - Gestion de la galerie
-import { works, createWorkElement } from "./works.js";
+import { works, createWorkElement } from "../works.js";
 import { WorkDeleter } from "./work-deleter.js";
 
 export class ModalGallery {

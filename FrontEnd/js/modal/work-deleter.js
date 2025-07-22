@@ -1,11 +1,10 @@
 // work-deleter.js - Suppression des travaux
-import { fetchDelete } from "./api.js";
+import { fetchDeleteWorks } from "../api.js";
 
 export class WorkDeleter {
   async deleteById(dataId) {
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetchDelete(dataId);
+      const response = await fetchDeleteWorks(dataId);
 
       if (response.ok) {
         this.removeFromDOM(dataId);

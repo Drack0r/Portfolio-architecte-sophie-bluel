@@ -1,7 +1,6 @@
 // works.js - Module d'affichage des travaux
 
-import { CONFIG } from "./api.js";
-import { fetchWorks } from "./api.js";
+import { CONFIG, fetchWorks } from "./api.js";
 import { setupFilters } from "./filters.js";
 import { apiErrorSpan } from "./ui.js";
 
