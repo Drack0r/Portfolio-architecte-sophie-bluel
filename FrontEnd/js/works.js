@@ -24,6 +24,36 @@ export function initializeGallery() {
   }
 }
 
+export function addNewWork(newWork) {
+  // Reconstituer l'objet category si nécessaire
+  if (!newWork.category || !newWork.category.name) {
+    const existingCategory = works.find(
+      (work) => work.category.id == newWork.categoryId
+    )?.category;
+
+    if (existingCategory) {
+      newWork.category = existingCategory;
+    } else {
+      newWork.category = {
+        id: newWork.categoryId,
+        name: `Catégorie ${newWork.categoryId}`,
+      };
+    }
+  }
+  works.push(newWork);
+  displayWorks(works);
+  setupFilters(works);
+}
+
+export function removeWork(workId) {
+  const index = works.findIndex((work) => work.id == workId);
+  if (index > -1) {
+    works.splice(index, 1);
+    displayWorks(works);
+    setupFilters(works);
+  }
+}
+
 // ===== 3. GESTION DE LA GALERIE =====
 
 // Afficher les travaux dans la galerie

@@ -24,6 +24,12 @@ export class ModalGallery {
     this.setupDeleteButtons();
   }
 
+  addWork(newWork) {
+    const workElement = createWorkElement(newWork, "modal");
+    this.modalGallery.appendChild(workElement);
+    this.setupDeleteButtons();
+  }
+
   clear() {
     this.modalGallery.innerHTML = "";
   }

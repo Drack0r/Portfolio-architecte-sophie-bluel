@@ -3,6 +3,7 @@ import { FormBuilder } from "./form-builder.js";
 import { ImagePreview } from "./image-preview.js";
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
 import { fetchPostWork } from "../api.js";
+import { addNewWork } from "../works.js";
 
 export class ModalAddImage {
   constructor(modalManager) {
@@ -95,6 +96,10 @@ export class ModalAddImage {
           // Envoyer les données à l'API
           const newWork = await fetchPostWork(title, imageFile, categoryId);
 
+          // Mettre à jours les galleries
+          addNewWork(newWork);
+          this.modalManager.gallery.addWork(newWork);
+
           // Afficher un message de succès
           displayMessage(
             "Formulaire validé !",
@@ -103,7 +108,7 @@ export class ModalAddImage {
           );
           messageSpan.style.display = "block";
 
-          // Optionnel : fermer la modal après un délai ou revenir à la galerie
+          // Retourner à la vue galerie après un délai
           setTimeout(() => {
             this.modalManager.showGalleryView();
             // Vous pourriez aussi vouloir recharger la galerie ici
