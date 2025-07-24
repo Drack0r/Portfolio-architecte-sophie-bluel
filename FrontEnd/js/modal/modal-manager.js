@@ -21,23 +21,27 @@ export class ModalManager {
     this.addImage = new ModalAddImage(this);
   }
 
+  // Installation du ModalManager
   setup() {
     this.events.setupEvents();
     this.gallery.init();
     this.addImage.setupAddButton();
   }
 
+  // Afficher la vue "gallerie"
   showGalleryView() {
     this.addImage.hide();
     this.gallery.show();
   }
 
+  // Afficher la vue "ajouter une image"
   showAddImageView() {
     this.gallery.hide();
     this.addImage.show();
   }
 }
 
+// Installation de la modale
 export function setupModal() {
   const modalManager = new ModalManager();
   modalManager.setup();

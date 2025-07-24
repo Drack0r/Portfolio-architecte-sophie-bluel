@@ -1,7 +1,13 @@
 // form-builder.js - Construction du formulaire
-import { works } from "../works.js";
+import { CategoryService } from "./category-service.js";
+import { FileValidator } from "./file-validator.js";
 
 export class FormBuilder {
+  constructor() {
+    this.fileValidator = new FileValidator();
+  }
+
+  // Création des éléments du formulaire
   async createElements() {
     const dropzone = this.createDropzone();
     const titleField = this.createTitleField();
@@ -12,12 +18,14 @@ export class FormBuilder {
     return { dropzone, titleField, categoryField, uiMessageSpan, submitButton };
   }
 
+  // Assemblage des éléments du formulaire
   assembleElements(
     { dropzone, titleField, categoryField, uiMessageSpan, submitButton },
     modal,
     modalContent
   ) {
     const modalTitle = modal.querySelector("h3");
+
     modalTitle.insertAdjacentElement("afterend", dropzone);
     dropzone.insertAdjacentElement("afterend", titleField);
     titleField.insertAdjacentElement("afterend", categoryField);
@@ -25,6 +33,7 @@ export class FormBuilder {
     modalContent.appendChild(submitButton);
   }
 
+  // Création de la Dropzone
   createDropzone() {
     const modalDropZone = document.createElement("div");
     modalDropZone.classList.add("dropzone");
@@ -35,27 +44,9 @@ export class FormBuilder {
     const modalDropZoneImageIcon = document.createElement("i");
     modalDropZoneImageIcon.className = "fa-regular fa-image";
 
-    // Bouton personnalisé
-    const customUploadBtn = document.createElement("button");
-    customUploadBtn.type = "button";
-    customUploadBtn.textContent = "+ Ajouter photo";
-    customUploadBtn.classList.add("custom-upload-btn");
-
-    // Input file caché
-    const modalDropZoneImageInput = document.createElement("input");
-    modalDropZoneImageInput.id = "modalDropZoneImageInput";
-    modalDropZoneImageInput.type = "file";
-    modalDropZoneImageInput.accept = "image/png, image/jpeg";
-    modalDropZoneImageInput.style.display = "none";
-
-    // Événement pour déclencher l'input
-    customUploadBtn.addEventListener("click", () => {
-      modalDropZoneImageInput.click();
-    });
-
-    const modalDropZoneImageFormatSpan = document.createElement("span");
-    modalDropZoneImageFormatSpan.id = "modalDropZoneImageFormatSpan";
-    modalDropZoneImageFormatSpan.textContent = "jpg, png : 4mo max";
+    const customUploadBtn = this.createUploadButton();
+    const modalDropZoneImageInput = this.createFileInput();
+    const modalDropZoneImageFormatSpan = this.createFormatSpan();
 
     modalDropZone.appendChild(modalDropZoneContent);
     modalDropZoneContent.appendChild(modalDropZoneImageIcon);
@@ -66,6 +57,52 @@ export class FormBuilder {
     return modalDropZone;
   }
 
+  // Créer le bouton d'upload
+  createUploadButton() {
+    const customUploadBtn = document.createElement("button");
+
+    customUploadBtn.type = "button";
+    customUploadBtn.textContent = "+ Ajouter photo";
+    customUploadBtn.classList.add("custom-upload-btn");
+
+    customUploadBtn.addEventListener("click", () => {
+      document.getElementById("modalDropZoneImageInput").click();
+    });
+
+    return customUploadBtn;
+  }
+
+  // Créer l'input file
+  createFileInput() {
+    const modalDropZoneImageInput = document.createElement("input");
+
+    modalDropZoneImageInput.id = "modalDropZoneImageInput";
+    modalDropZoneImageInput.type = "file";
+    modalDropZoneImageInput.accept = "image/png, image/jpeg";
+    modalDropZoneImageInput.style.display = "none";
+
+    modalDropZoneImageInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      const uiMessageSpan = document.getElementById("uiMessageSpan");
+
+      if (!this.fileValidator.validate(file, uiMessageSpan)) {
+        event.target.value = "";
+      }
+    });
+
+    return modalDropZoneImageInput;
+  }
+
+  // Créer le span de format
+  createFormatSpan() {
+    const modalDropZoneImageFormatSpan = document.createElement("span");
+
+    modalDropZoneImageFormatSpan.id = "modalDropZoneImageFormatSpan";
+    modalDropZoneImageFormatSpan.textContent = "jpg, png : 4mo max";
+    return modalDropZoneImageFormatSpan;
+  }
+
+  // Création du champ "titre"
   createTitleField() {
     const imgTitleDiv = document.createElement("div");
     imgTitleDiv.classList.add("imgInputDiv");
@@ -86,6 +123,7 @@ export class FormBuilder {
     return imgTitleDiv;
   }
 
+  // Création du champ "catégorie"
   async createCategoryField() {
     const imgCategoryDiv = document.createElement("div");
     imgCategoryDiv.classList.add("imgInputDiv");
@@ -107,13 +145,15 @@ export class FormBuilder {
     return imgCategoryDiv;
   }
 
+  // Remplissage de l'élément <select> avec les catégories
   async populateCategorySelect(selectElement) {
-    const categories = this.getUniqueCategories();
+    const categories = CategoryService.getUniqueCategories();
     const options = this.createCategoryOptions(categories);
 
     options.forEach((option) => selectElement.appendChild(option));
   }
 
+  // Créations des options "catégories"
   createCategoryOptions(categories) {
     return categories.map((category) => {
       const option = document.createElement("option");
@@ -123,6 +163,7 @@ export class FormBuilder {
     });
   }
 
+  // Création du bouton de soumission du formulaire
   createSubmitButton() {
     const validImgBtn = document.createElement("button");
     validImgBtn.textContent = "Valider";
@@ -131,6 +172,7 @@ export class FormBuilder {
     return validImgBtn;
   }
 
+  // Création de l'élément <span> pour les messages UI
   createUiMessageSpan() {
     const uiMessageSpan = document.createElement("span");
     uiMessageSpan.textContent = "Message d'erreur";
@@ -138,25 +180,5 @@ export class FormBuilder {
     uiMessageSpan.style.display = "none";
 
     return uiMessageSpan;
-  }
-
-  getUniqueCategories() {
-    try {
-      const categoryMap = new Map();
-
-      works.forEach((work) => {
-        if (!categoryMap.has(work.category.id)) {
-          categoryMap.set(work.category.id, {
-            id: work.category.id,
-            name: work.category.name,
-          });
-        }
-      });
-
-      return Array.from(categoryMap.values());
-    } catch (error) {
-      console.error(`Erreur lors du chargement des catégories : ${error}`);
-      return [];
-    }
   }
 }

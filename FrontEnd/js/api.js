@@ -1,14 +1,12 @@
 // api.js - Module de gestion de l'API
 
-// ===== 1. CONFIGURATION =====
-
+// ===== CONFIGURATION ===== //
 export const CONFIG = {
   API_BASE_URL: "http://localhost:5678/api",
   GALLERY_SELECTOR: ".gallery",
 };
 
-// ===== 2. REQUÊTES GET =====
-
+// ===== REQUÊTES GET ===== //
 // Récupération des travaux depuis l'API
 export async function fetchWorks() {
   const response = await fetch(`${CONFIG.API_BASE_URL}/works`);
@@ -20,8 +18,7 @@ export async function fetchWorks() {
   return await response.json();
 }
 
-// ===== 3. REQUÊTES POST =====
-
+// ===== REQUÊTES POST ===== //
 // Envoi du formulaire de connexion à l'API
 export async function fetchLogIn(email, password) {
   const response = await fetch(`${CONFIG.API_BASE_URL}/users/login`, {
@@ -67,13 +64,12 @@ export async function fetchPostWork(title, image, category) {
   return await response.json();
 }
 
-// ===== 4. REQUÊTES DELETE =====
-
-// Requête DELETE pour supprimer un travail
-export async function fetchDeleteWorks(dataId) {
+// ===== REQUÊTES DELETE ===== //
+// Supprimer un travail
+export async function fetchDeleteWork(dataId) {
+  // Vérifier si le token existe
   const token = localStorage.getItem("token");
 
-  // Vérifier si le token existe
   if (!token) {
     throw new Error("Token d'authentification manquant");
   }
@@ -85,6 +81,10 @@ export async function fetchDeleteWorks(dataId) {
       "Content-Type": "application/json",
     },
   });
+
+  if (!response.ok) {
+    throw new Error(`Erreur HTTP : ${response.status}`);
+  }
 
   return response;
 }

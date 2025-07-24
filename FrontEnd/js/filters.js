@@ -1,26 +1,25 @@
 // filters.js - Module de gestion des filtres
-
 import { displayWorks } from "./works.js";
 
-// ===== 1. POINT D'ENTRÉE PRINCIPAL =====
-
+// ===== POINT D'ENTRÉE PRINCIPAL ===== //
 // Mise en place des filtres
 export function setupFilters(works) {
   const filtersContainer = document.querySelector(".filters");
 
-  clearFilterContainer();
+  clearFiltersContainer();
 
   const categories = getUniqueCategories(works);
 
   categories.forEach((category, index) => {
     const filterBtn = createFilterButton(category, index === 0);
+
     attachFilterEvents(filterBtn, works, category);
+
     filtersContainer.appendChild(filterBtn);
   });
 }
 
-// ===== 2. GESTION DES CATÉGORIES =====
-
+// ===== GESTION DES CATÉGORIES ===== //
 // Extraire les catégories uniques
 function getUniqueCategories(works) {
   return ["Tous", ...new Set(works.map((work) => work.category.name))];
@@ -33,26 +32,25 @@ function filterWorksByCategory(works, category) {
     : works.filter((work) => work.category.name === category);
 }
 
-// ===== 3. CRÉATION ET GESTION DES BOUTONS =====
-
+// ===== CRÉATION ET GESTION DES BOUTONS ===== //
 // Créer un bouton de filtre
 function createFilterButton(category, isActive = false) {
-  const filterBtn = document.createElement("button");
-  filterBtn.textContent = category;
-  filterBtn.classList.add("filter-btn");
+  const filterButton = document.createElement("button");
+  filterButton.textContent = category;
+  filterButton.classList.add("filter-btn");
 
   if (isActive) {
-    filterBtn.classList.add("filter-btn-active");
+    filterButton.classList.add("filter-btn-active");
   }
 
-  return filterBtn;
+  return filterButton;
 }
 
 // Gérer l'état actif des boutons
 function setActiveFilter(clickedButton) {
-  const filterBtns = document.querySelectorAll(".filter-btn");
+  const filterButtons = document.querySelectorAll(".filter-btn");
 
-  filterBtns.forEach((btn) => {
+  filterButtons.forEach((btn) => {
     btn.classList.remove("filter-btn-active");
   });
 
@@ -60,18 +58,19 @@ function setActiveFilter(clickedButton) {
 }
 
 // Attacher les événements à un bouton
-function attachFilterEvents(filterBtn, works, category) {
-  filterBtn.addEventListener("click", () => {
-    setActiveFilter(filterBtn);
+function attachFilterEvents(filterButton, works, category) {
+  filterButton.addEventListener("click", () => {
+    setActiveFilter(filterButton);
+
     const filteredWorks = filterWorksByCategory(works, category);
+
     displayWorks(filteredWorks);
   });
 }
 
-// ===== 4. MANIPULATION DU DOM =====
-
+// ===== MANIPULATION DU DOM ===== //
 // Vider les filtres
-function clearFilterContainer() {
+function clearFiltersContainer() {
   const filtersContainer = document.querySelector(".filters");
   filtersContainer.innerHTML = "";
 }

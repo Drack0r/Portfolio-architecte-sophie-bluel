@@ -1,7 +1,7 @@
 // main.js - Module principal de lancement
 
 import { initializeGallery } from "./works.js";
-import { setupAuthButton, setupModBtn } from "./ui.js";
+import { setupAuthButton, setupModifyButton } from "./ui.js";
 import { setupModal } from "./modal/modal-manager.js";
 
 // ===== 1. POINT D'ENTRÉE PRINCIPAL =====
@@ -10,7 +10,7 @@ import { setupModal } from "./modal/modal-manager.js";
 function initializeApp() {
   try {
     setupAuthButton();
-    setupModBtn();
+    setupModifyButton();
     setupModal();
     initializeGallery();
   } catch (error) {
@@ -20,5 +20,3 @@ function initializeApp() {
 
 // ===== 2. LANCEMENT DE L'APPLICATION =====
 initializeApp();
-
-// formData

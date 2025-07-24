@@ -1,9 +1,7 @@
 // ui.js - Module d'interface utilisateur
-
 import { isUserLoggedIn, logOut } from "./auth.js";
 
-// ===== 1. CONSTANTES ET ÉLÉMENTS DOM =====
-
+// ===== CONSTANTES ET ÉLÉMENTS DOM ===== //
 // Ciblage de la span 'api-error' pour catch les erreurs
 export const apiErrorSpan = document.getElementById("api-error");
 
@@ -14,14 +12,11 @@ export const MESSAGE_TYPES = {
   INFO: "info",
 };
 
-// ===== 2. GESTION DES MESSAGES =====
-
+// ===== GESTION DES MESSAGES ===== //
 // Afficher les messages
 export function displayMessage(message, element, messageType) {
-  // Définir le message
   element.textContent = message;
 
-  // Définir la couleur selon le type
   switch (messageType) {
     case MESSAGE_TYPES.SUCCESS:
       element.style.color = "green";
@@ -37,8 +32,7 @@ export function displayMessage(message, element, messageType) {
   }
 }
 
-// ===== 3. GESTION DU BOUTON D'AUTHENTIFICATION =====
-
+// ===== GESTION DU BOUTON D'AUTHENTIFICATION ===== //
 // Gérer le bouton login / logout
 export function setupAuthButton() {
   const authLink = document.getElementById("auth-link");
@@ -46,10 +40,11 @@ export function setupAuthButton() {
   if (!authLink) return;
 
   configureAuthButton(authLink);
+
   attachAuthEvents(authLink);
 }
 
-// Configurer l'apparence du bouton auth
+// Configurer l'apparence du bouton 'auth'
 function configureAuthButton(authLink) {
   if (isUserLoggedIn()) {
     authLink.textContent = "logout";
@@ -60,25 +55,25 @@ function configureAuthButton(authLink) {
   }
 }
 
-// Ajouter les événements au bouton auth
+// Ajouter les événements au bouton 'auth'
 function attachAuthEvents(authLink) {
   if (isUserLoggedIn()) {
     authLink.addEventListener("click", (e) => {
       e.preventDefault();
+
       logOut();
     });
   }
 }
 
-// ===== 4. GESTION DES ÉLÉMENTS D'INTERFACE CONDITIONNELS =====
-
+// ===== GESTION DES ÉLÉMENTS D'INTERFACE CONDITIONNELS ===== //
 // Gérer l'affichage du bouton 'modifier'
-export function setupModBtn() {
-  const showModalBtn = document.getElementById("showModalBtn");
+export function setupModifyButton() {
+  const showModalButton = document.getElementById("showModalBtn");
 
   if (!isUserLoggedIn()) {
-    showModalBtn.classList.add("hidden");
+    showModalButton.classList.add("hidden");
   } else {
-    showModalBtn.classList.remove("hidden");
+    showModalButton.classList.remove("hidden");
   }
 }

@@ -8,11 +8,13 @@ export class ModalEvents {
     this.closeModalBtn = modalManager.closeModalBtn;
   }
 
+  // Installation des évènements
   setupEvents() {
     this.setupShowEvent();
     this.setupCloseEvents();
   }
 
+  // Installation de l'évènement "afficher"
   setupShowEvent() {
     this.showModalBtn.addEventListener("click", async () => {
       this.modal.showModal();
@@ -21,6 +23,7 @@ export class ModalEvents {
     });
   }
 
+  // Installation des évènements "fermer"
   setupCloseEvents() {
     this.closeModalBtn.addEventListener("click", () => {
       this.modal.close();
@@ -33,6 +36,7 @@ export class ModalEvents {
     });
 
     const modalContent = this.modal.querySelector(".modal-content");
+
     modalContent.addEventListener("click", (event) => {
       event.stopPropagation();
     });

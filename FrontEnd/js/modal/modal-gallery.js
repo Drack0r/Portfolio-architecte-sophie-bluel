@@ -10,6 +10,7 @@ export class ModalGallery {
     this.workDeleter = new WorkDeleter();
   }
 
+  // Initialisation de la vue "gallerie"
   init() {
     try {
       this.refresh(works);
@@ -18,31 +19,39 @@ export class ModalGallery {
     }
   }
 
+  // Rafraîchissement de la vue "gallerie"
   refresh(works) {
     this.clear();
     this.displayWorks(works);
     this.setupDeleteButtons();
   }
 
+  // Ajout d'un nouveau travail
   addWork(newWork) {
     const workElement = createWorkElement(newWork, "modal");
+
     this.modalGallery.appendChild(workElement);
     this.setupDeleteButtons();
   }
 
+  // Nettoyage de la vue "gallerie"
   clear() {
     this.modalGallery.innerHTML = "";
   }
 
+  // Affichage des travaux
   displayWorks(works) {
     works.forEach((work) => {
       const workElement = createWorkElement(work, "modal");
+
       this.modalGallery.appendChild(workElement);
     });
   }
 
+  // Installation des boutons "supprimer"
   setupDeleteButtons() {
     const deleteButtons = document.querySelectorAll(".delete-button");
+
     deleteButtons.forEach((button) => {
       button.addEventListener("click", async () => {
         const dataId = button.parentNode.getAttribute("data-work-id");
@@ -51,17 +60,20 @@ export class ModalGallery {
     });
   }
 
+  // Affichage de la vue "gallerie"
   show() {
     this.modalGallery.style.display = "flex";
     this.addImgBtn.style.display = "block";
     this.changeTitle("Galerie photo");
   }
 
+  // Camouflage de la vue "gallerie"
   hide() {
     this.modalGallery.style.display = "none";
     this.addImgBtn.style.display = "none";
   }
 
+  // Changement du titre de la modale
   changeTitle(title) {
     const modalTitle = this.modalManager.modal.querySelector("h3");
     modalTitle.textContent = title;
