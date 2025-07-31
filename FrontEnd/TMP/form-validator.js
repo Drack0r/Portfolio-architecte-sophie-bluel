@@ -1,5 +1,6 @@
 // form-validator.js - Validation du formulaire
 
+/*
 export class FormValidator {
   // Valider le formulaire d'ajout d'image
   validateAddImageForm() {
@@ -27,3 +28,4 @@ export class FormValidator {
     };
   }
 }
+*/

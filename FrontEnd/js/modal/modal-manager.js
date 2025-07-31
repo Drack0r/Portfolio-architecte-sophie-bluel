@@ -31,6 +31,7 @@ export class ModalManager {
   // Afficher la vue "gallerie"
   showGalleryView() {
     this.addImage.hide();
+    this.gallery.ensureInitialized();
     this.gallery.show();
   }
 

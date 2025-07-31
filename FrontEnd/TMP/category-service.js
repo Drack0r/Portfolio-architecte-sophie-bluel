@@ -1,4 +1,6 @@
 // category-service.js - Service de gestion des catégories
+
+/*
 import { works } from "../works.js";
 
 export class CategoryService {
@@ -23,3 +25,4 @@ export class CategoryService {
     }
   }
 }
+*/

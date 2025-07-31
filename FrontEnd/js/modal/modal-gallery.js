@@ -8,14 +8,23 @@ export class ModalGallery {
     this.modalGallery = modalManager.modalGallery;
     this.addImgBtn = modalManager.addImgBtn;
     this.workDeleter = new WorkDeleter();
+    this.isInitialized = false;
   }
 
   // Initialisation de la vue "gallerie"
   init() {
     try {
       this.refresh(works);
+      this.isInitialized = true;
     } catch (error) {
       console.error(`Erreur : ${error.message}`);
+    }
+  }
+
+  // S'assurer que la gallerie est bien initialisée
+  ensureInitialized() {
+    if (!this.isInitialized) {
+      this.init();
     }
   }
 

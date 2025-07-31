@@ -20,3 +20,11 @@ function initializeApp() {
 
 // ===== 2. LANCEMENT DE L'APPLICATION =====
 initializeApp();
+
+// validator.js ✅
+// services.js ✅
+// FormData.append() ❌ Il n'y a pas de formulaire qui contient les inputs + conflit reconstitution catégories dans works.js
+// Design Pattern
+// Factory Pattern
+// ES Lint
+// const verbe HTTP (énumération)

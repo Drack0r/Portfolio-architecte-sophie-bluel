@@ -1,11 +1,11 @@
 // works.js - Module d'affichage des travaux
-import { CONFIG, fetchWorks } from "./api.js";
+import { fetchWorks } from "./api.js";
 import { setupFilters } from "./filters.js";
 import { apiErrorSpan } from "./ui.js";
 
 // ===== CONSTANTES ET ÉLÉMENTS DOM ===== //
 // Sélection de l'élément gallerie
-const gallery = document.querySelector(CONFIG.GALLERY_SELECTOR);
+const gallery = document.querySelector(".gallery");
 
 // Fetch des travaux depuis l'API
 export const works = await fetchWorks();

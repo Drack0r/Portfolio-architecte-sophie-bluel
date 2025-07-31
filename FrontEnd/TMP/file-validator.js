@@ -1,4 +1,5 @@
 // file-validator.js - Validation des fichiers
+/*
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
 
 export class FileValidator {
@@ -41,3 +42,4 @@ export class FileValidator {
     return true;
   }
 }
+*/

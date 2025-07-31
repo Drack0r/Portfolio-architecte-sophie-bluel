@@ -1,6 +1,6 @@
 // form-builder.js - Construction du formulaire
-import { CategoryService } from "./category-service.js";
-import { FileValidator } from "./file-validator.js";
+import { CategoryService } from "./services.js";
+import { FileValidator } from "./validator.js";
 
 export class FormBuilder {
   constructor() {

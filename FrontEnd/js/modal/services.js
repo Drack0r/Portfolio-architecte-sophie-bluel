@@ -1,8 +1,33 @@
-// form-submission-service.js - Service de soumission
+// services.js - Fichier de services de la modale
+import { works, addNewWork } from "../works.js";
 import { fetchPostWork } from "../api.js";
-import { addNewWork } from "../works.js";
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
 
+// ===== SERVICES LIÉS AUX CATÉGORIES ===== //
+export class CategoryService {
+  // Obtenir les catégories sans doublons
+  static getUniqueCategories() {
+    try {
+      const categoryMap = new Map();
+
+      works.forEach((work) => {
+        if (!categoryMap.has(work.category.id)) {
+          categoryMap.set(work.category.id, {
+            id: work.category.id,
+            name: work.category.name,
+          });
+        }
+      });
+
+      return Array.from(categoryMap.values());
+    } catch (error) {
+      console.error(`Erreur lors du chargement des catégories : ${error}`);
+      return [];
+    }
+  }
+}
+
+// ===== SERVICES LIÉS A LA SOUMISSION DE FORMULAIRE ===== //
 export class FormSubmissionService {
   // Soumettre le formulaire d'ajout d'image
   async submitForm(formData, messageElement) {

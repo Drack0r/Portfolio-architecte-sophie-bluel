@@ -1,9 +1,8 @@
-// api.js - Module de gestion de l'API
+// api.js - Fichier de gestion des appels API
 
 // ===== CONFIGURATION ===== //
 export const CONFIG = {
   API_BASE_URL: "http://localhost:5678/api",
-  GALLERY_SELECTOR: ".gallery",
 };
 
 // ===== REQUÊTES GET ===== //

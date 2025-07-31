@@ -6,16 +6,23 @@ export class ModalDomManager {
     this.modalContent = modalContent;
   }
 
-  // Créer le bouton de retour
+  // Créer ou afficher le bouton de retour
   createReturnButton(onClickCallback) {
-    const returnBtn = document.createElement("button");
-    returnBtn.id = "returnToGalleryBtn";
+    // Vérifier si le bouton existe déjà
+    let returnBtn = document.getElementById("returnToGalleryBtn");
 
-    const icon = document.createElement("i");
-    icon.className = "fa-solid fa-arrow-left";
+    if (returnBtn) {
+      returnBtn.style.display = "block";
+    } else {
+      returnBtn = document.createElement("button");
+      returnBtn.id = "returnToGalleryBtn";
 
-    returnBtn.appendChild(icon);
-    this.modal.appendChild(returnBtn);
+      const icon = document.createElement("i");
+      icon.className = "fa-solid fa-arrow-left";
+
+      returnBtn.appendChild(icon);
+      this.modal.appendChild(returnBtn);
+    }
 
     returnBtn.addEventListener("click", onClickCallback);
 
@@ -33,8 +40,7 @@ export class ModalDomManager {
     selectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
       elements.forEach((element) => {
-        if (element.remove) element.remove();
-        else element.style.display = "none";
+        element.style.display = "none";
       });
     });
   }

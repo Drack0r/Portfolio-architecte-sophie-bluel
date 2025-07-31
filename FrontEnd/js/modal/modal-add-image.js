@@ -2,8 +2,8 @@
 import { FormBuilder } from "./form-builder.js";
 import { ImagePreview } from "./image-preview.js";
 import { ModalDomManager } from "./modal-dom-manager.js";
-import { FormSubmissionService } from "./form-submission-service.js";
-import { FormValidator } from "./form-validator.js";
+import { FormSubmissionService } from "./services.js";
+import { FormValidator } from "./validator.js";
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
 
 export class ModalAddImage {
@@ -19,6 +19,10 @@ export class ModalAddImage {
     this.domManager = new ModalDomManager(this.modal, this.modalContent);
     this.submissionService = new FormSubmissionService();
     this.formValidator = new FormValidator();
+
+    // Indicateur pour savoir si le formulaire a été créé
+    this.isFormBuilt = false;
+    this.formElements = null;
   }
 
   // Installation du bouton "ajouter"
@@ -35,8 +39,17 @@ export class ModalAddImage {
     this.domManager.createReturnButton(() => {
       this.modalManager.showGalleryView();
     });
-    await this.buildForm();
-    this.setupFormEvents();
+
+    // Ne construire le formulaire qu'une seule fois
+    if (!this.isFormBuilt) {
+      await this.buildForm();
+      this.setupFormEvents();
+      this.isFormBuilt = true;
+    } else {
+      // Simplement afficher les éléments existants
+      this.showFormElements();
+    }
+
     this.domManager.hideMessage();
   }
 
@@ -52,13 +65,44 @@ export class ModalAddImage {
     this.domManager.hideElements(selectors);
     this.imagePreview.cleanup();
     this.domManager.hideMessage();
+    this.clearForm();
+  }
+
+  // Vider le formulaire
+  clearForm() {
+    const titleInput = document.getElementById("imgTitleInput");
+    const categoryInput = document.getElementById("imgCategoryInput");
+
+    if (titleInput) {
+      titleInput.value = "";
+    }
+
+    if (categoryInput) {
+      categoryInput.selectedIndex = 0;
+    }
+  }
+
+  // Afficher les éléments du formulaire
+  showFormElements() {
+    const selectors = [
+      ".dropzone",
+      ".modal-content > .imgInputDiv",
+      "#validImgBtn",
+    ];
+
+    selectors.forEach((selector) => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((element) => {
+        element.style.display = "";
+      });
+    });
   }
 
   // Construction du formulaire
   async buildForm() {
-    const formElements = await this.formBuilder.createElements();
+    this.formElements = await this.formBuilder.createElements();
     this.formBuilder.assembleElements(
-      formElements,
+      this.formElements,
       this.modal,
       this.modalContent
     );
