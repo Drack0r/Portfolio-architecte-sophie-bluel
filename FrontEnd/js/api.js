@@ -34,19 +34,9 @@ export async function fetchLogIn(email, password) {
 }
 
 // Envoi d'un nouveau travail à l'API
-export async function fetchPostWork(title, image, category) {
-  // Vérifier si le token existe
+export async function fetchPostWork(formData) {
   const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Token d'authentification manquant");
-  }
-
-  // Créer un FormData pour envoyer le fichier
-  const formData = new FormData();
-  formData.append("image", image);
-  formData.append("title", title);
-  formData.append("category", category);
+  if (!token) throw new Error("Token d'authentification manquant");
 
   const response = await fetch(`${CONFIG.API_BASE_URL}/works`, {
     method: "POST",

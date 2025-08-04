@@ -366,6 +366,13 @@ li:hover {
   cursor: pointer;
 }
 
+#addWorkForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .dropzone {
   position: relative;
   top: -10px;
@@ -499,6 +506,9 @@ li:hover {
 #validImgBtn {
   position: relative;
   top: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "Syne", sans-serif;
   font-size: 14px;
   font-weight: 700;

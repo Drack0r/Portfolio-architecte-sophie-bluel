@@ -18,7 +18,6 @@ export class ModalEvents {
   setupShowEvent() {
     this.showModalBtn.addEventListener("click", async () => {
       this.modal.showModal();
-      await this.modalManager.gallery.init();
       this.modalManager.showGalleryView();
     });
   }

@@ -1,4 +1,5 @@
 // work-deleter.js - Suppression des travaux
+
 import { fetchDeleteWork } from "../api.js";
 import { removeWork } from "../works.js";
 

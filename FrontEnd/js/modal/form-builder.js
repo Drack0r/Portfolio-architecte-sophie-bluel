@@ -1,4 +1,5 @@
 // form-builder.js - Construction du formulaire
+
 import { CategoryService } from "./services.js";
 import { FileValidator } from "./validator.js";
 
@@ -9,28 +10,37 @@ export class FormBuilder {
 
   // Création des éléments du formulaire
   async createElements() {
+    const form = document.createElement("form");
+    form.id = "addWorkForm";
+
     const dropzone = this.createDropzone();
     const titleField = this.createTitleField();
     const categoryField = await this.createCategoryField();
+    const hr = document.createElement("hr");
+    hr.id = "addImageHr";
     const uiMessageSpan = this.createUiMessageSpan();
     const submitButton = this.createSubmitButton();
 
-    return { dropzone, titleField, categoryField, uiMessageSpan, submitButton };
+    form.appendChild(dropzone);
+    form.appendChild(titleField);
+    form.appendChild(categoryField);
+    form.appendChild(uiMessageSpan);
+    form.appendChild(hr);
+    form.appendChild(submitButton);
+
+    return {
+      form,
+      dropzone,
+      titleField,
+      categoryField,
+      uiMessageSpan,
+      submitButton,
+    };
   }
 
   // Assemblage des éléments du formulaire
-  assembleElements(
-    { dropzone, titleField, categoryField, uiMessageSpan, submitButton },
-    modal,
-    modalContent
-  ) {
-    const modalTitle = modal.querySelector("h3");
-
-    modalTitle.insertAdjacentElement("afterend", dropzone);
-    dropzone.insertAdjacentElement("afterend", titleField);
-    titleField.insertAdjacentElement("afterend", categoryField);
-    categoryField.insertAdjacentElement("afterend", uiMessageSpan);
-    modalContent.appendChild(submitButton);
+  assembleElements({ form }, modalContent) {
+    modalContent.appendChild(form);
   }
 
   // Création de la Dropzone
@@ -77,6 +87,7 @@ export class FormBuilder {
     const modalDropZoneImageInput = document.createElement("input");
 
     modalDropZoneImageInput.id = "modalDropZoneImageInput";
+    modalDropZoneImageInput.name = "image";
     modalDropZoneImageInput.type = "file";
     modalDropZoneImageInput.accept = "image/png, image/jpeg";
     modalDropZoneImageInput.style.display = "none";
@@ -115,6 +126,7 @@ export class FormBuilder {
     const imgTitleInput = document.createElement("input");
     imgTitleInput.classList.add("imgInput");
     imgTitleInput.setAttribute("id", "imgTitleInput");
+    imgTitleInput.setAttribute("name", "title");
     imgTitleInput.setAttribute("type", "text");
 
     imgTitleDiv.appendChild(imgTitleLabel);
@@ -136,6 +148,7 @@ export class FormBuilder {
     const imgCategoryInput = document.createElement("select");
     imgCategoryInput.classList.add("imgInput");
     imgCategoryInput.setAttribute("id", "imgCategoryInput");
+    imgCategoryInput.setAttribute("name", "category");
 
     await this.populateCategorySelect(imgCategoryInput);
 

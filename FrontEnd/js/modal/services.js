@@ -1,4 +1,5 @@
 // services.js - Fichier de services de la modale
+
 import { works, addNewWork } from "../works.js";
 import { fetchPostWork } from "../api.js";
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
@@ -31,10 +32,12 @@ export class CategoryService {
 export class FormSubmissionService {
   // Soumettre le formulaire d'ajout d'image
   async submitForm(formData, messageElement) {
-    const { imageFile, title, categoryId } = formData;
-
     try {
-      const newWork = await fetchPostWork(title, imageFile, categoryId);
+      const newWork = await fetchPostWork(formData);
+
+      if (!newWork || !newWork.id) {
+        throw new Error("Réponse API invalide");
+      }
 
       // Mettre à jour les données
       addNewWork(newWork);

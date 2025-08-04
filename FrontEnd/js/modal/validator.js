@@ -1,4 +1,5 @@
 // validator.js - Fichier de validation de la modale
+
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
 
 // ===== VALIDATOR DE L'INPUT FILE ===== //

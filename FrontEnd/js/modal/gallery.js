@@ -1,4 +1,5 @@
 // modal-gallery.js - Gestion de la galerie
+
 import { works, createWorkElement } from "../works.js";
 import { WorkDeleter } from "./work-deleter.js";
 
@@ -7,6 +8,7 @@ export class ModalGallery {
     this.modalManager = modalManager;
     this.modalGallery = modalManager.modalGallery;
     this.addImgBtn = modalManager.addImgBtn;
+    this.hrBreak = modalManager.hrBreak;
     this.workDeleter = new WorkDeleter();
     this.isInitialized = false;
   }
@@ -73,6 +75,7 @@ export class ModalGallery {
   show() {
     this.modalGallery.style.display = "flex";
     this.addImgBtn.style.display = "block";
+    this.hrBreak.style.display = "block";
     this.changeTitle("Galerie photo");
   }
 
@@ -80,6 +83,7 @@ export class ModalGallery {
   hide() {
     this.modalGallery.style.display = "none";
     this.addImgBtn.style.display = "none";
+    this.hrBreak.style.display = "none";
   }
 
   // Changement du titre de la modale

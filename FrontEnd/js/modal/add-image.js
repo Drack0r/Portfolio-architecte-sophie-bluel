@@ -1,7 +1,8 @@
 // modal-add-image.js - Formulaire d'ajout
+
 import { FormBuilder } from "./form-builder.js";
 import { ImagePreview } from "./image-preview.js";
-import { ModalDomManager } from "./modal-dom-manager.js";
+import { ModalDomManager } from "./dom-manager.js";
 import { FormSubmissionService } from "./services.js";
 import { FormValidator } from "./validator.js";
 import { displayMessage, MESSAGE_TYPES } from "../ui.js";
@@ -57,7 +58,9 @@ export class ModalAddImage {
   hide() {
     const selectors = [
       ".dropzone",
-      ".modal-content > .imgInputDiv",
+      "label",
+      ".imgInputDiv",
+      "#addImageHr",
       "#validImgBtn",
       "#returnToGalleryBtn",
     ];
@@ -70,9 +73,13 @@ export class ModalAddImage {
 
   // Vider le formulaire
   clearForm() {
+    const imageInput = document.getElementById("modalDropZoneImageInput");
     const titleInput = document.getElementById("imgTitleInput");
     const categoryInput = document.getElementById("imgCategoryInput");
 
+    if (imageInput) {
+      imageInput.value = "";
+    }
     if (titleInput) {
       titleInput.value = "";
     }
@@ -80,20 +87,25 @@ export class ModalAddImage {
     if (categoryInput) {
       categoryInput.selectedIndex = 0;
     }
+
+    // Nettoyer aussi la prévisualisation
+    this.imagePreview.cleanup();
   }
 
   // Afficher les éléments du formulaire
   showFormElements() {
     const selectors = [
       ".dropzone",
-      ".modal-content > .imgInputDiv",
+      "label",
+      ".imgInputDiv",
+      "#addImageHr",
       "#validImgBtn",
     ];
 
     selectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
       elements.forEach((element) => {
-        element.style.display = "";
+        element.style.display = "flex";
       });
     });
   }
@@ -101,11 +113,8 @@ export class ModalAddImage {
   // Construction du formulaire
   async buildForm() {
     this.formElements = await this.formBuilder.createElements();
-    this.formBuilder.assembleElements(
-      this.formElements,
-      this.modal,
-      this.modalContent
-    );
+    this.formBuilder.assembleElements(this.formElements, this.modalContent);
+    this.form = this.formElements.form;
   }
 
   // Installation des événements du formulaire
@@ -116,14 +125,15 @@ export class ModalAddImage {
 
   // Installation de la validation du formulaire
   setupFormValidation() {
+    const form = this.form;
     const submitBtn = document.getElementById("validImgBtn");
     const messageSpan = document.getElementById("uiMessageSpan");
 
-    submitBtn.addEventListener("click", async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       if (this.formValidator.validateAddImageForm()) {
-        const formData = this.formValidator.extractFormData();
+        const formData = new FormData(form);
 
         submitBtn.disabled = true;
         submitBtn.textContent = "Envoi en cours...";

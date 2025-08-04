@@ -23,6 +23,11 @@ export function initializeGallery() {
 
 // Ajouter un nouveau travail
 export function addNewWork(newWork) {
+  if (!newWork || !newWork.id) {
+    console.error("Nouveau travail invalide:", newWork);
+    return;
+  }
+
   // Reconstituer l'objet category si nécessaire
   if (!newWork.category || !newWork.category.name) {
     const existingCategory = works.find(

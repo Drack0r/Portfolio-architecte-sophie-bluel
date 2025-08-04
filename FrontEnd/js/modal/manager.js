@@ -1,7 +1,8 @@
 // modal-manager.js - Gestionnaire principal
-import { ModalEvents } from "./modal-events.js";
-import { ModalGallery } from "./modal-gallery.js";
-import { ModalAddImage } from "./modal-add-image.js";
+
+import { ModalEvents } from "./events.js";
+import { ModalGallery } from "./gallery.js";
+import { ModalAddImage } from "./add-image.js";
 
 export class ModalManager {
   constructor() {
@@ -11,6 +12,7 @@ export class ModalManager {
     this.showModalBtn = document.getElementById("showModalBtn");
     this.closeModalBtn = document.getElementById("closeBtnModal");
     this.addImgBtn = document.getElementById("addImgBtnModal");
+    this.hrBreak = document.getElementById("hrBreak");
 
     if (!this.modal || !this.modalContent || !this.modalGallery) {
       throw new Error("Éléments DOM requis pour la modale introuvables");

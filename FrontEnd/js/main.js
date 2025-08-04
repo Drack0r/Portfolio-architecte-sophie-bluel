@@ -2,7 +2,7 @@
 
 import { initializeGallery } from "./works.js";
 import { setupAuthButton, setupModifyButton } from "./ui.js";
-import { setupModal } from "./modal/modal-manager.js";
+import { setupModal } from "./modal/manager.js";
 
 // ===== 1. POINT D'ENTRÉE PRINCIPAL =====
 
@@ -20,11 +20,3 @@ function initializeApp() {
 
 // ===== 2. LANCEMENT DE L'APPLICATION =====
 initializeApp();
-
-// validator.js ✅
-// services.js ✅
-// FormData.append() ❌ Il n'y a pas de formulaire qui contient les inputs + conflit reconstitution catégories dans works.js
-// Design Pattern
-// Factory Pattern
-// ES Lint
-// const verbe HTTP (énumération)
